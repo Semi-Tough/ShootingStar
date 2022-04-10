@@ -61,3 +61,7 @@ crashlytics-build.properties
 /.idea
 UserSettings
 *.DotSettings
+ConsolePro
+Asset Cleaner
+/Assets/Asset Cleaner.meta
+/Assets/ConsolePro.meta

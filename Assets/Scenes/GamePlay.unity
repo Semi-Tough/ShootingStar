@@ -450,7 +450,7 @@ Transform:
   - {fileID: 533147328}
   - {fileID: 1515038551}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1300109770
 MonoBehaviour:
@@ -501,7 +501,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.24132253, g: 0.253869, b: 0.2735849, a: 0}
+  m_BackGroundColor: {r: 0.21084018, g: 0.29451102, b: 0.4339623, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -546,7 +546,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1313643153
 MonoBehaviour:
@@ -639,11 +639,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: accelerationTime
-      value: 5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: decelerationTime
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: moveRotationAngle
@@ -821,7 +821,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1991039411
 MonoBehaviour:
@@ -847,6 +847,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1395877204580144416, guid: b2d75e38575d6de4e9908ee9acc7375b, type: 3}
+      propertyPath: InitialModule.size3D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395877204580144416, guid: b2d75e38575d6de4e9908ee9acc7375b, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395877204580144418, guid: b2d75e38575d6de4e9908ee9acc7375b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1395877206129221008, guid: b2d75e38575d6de4e9908ee9acc7375b, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -893,7 +905,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1395877206129221009, guid: b2d75e38575d6de4e9908ee9acc7375b, type: 3}
       propertyPath: m_Name
-      value: PlayerBullet
+      value: PlayerProjectile
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2d75e38575d6de4e9908ee9acc7375b, type: 3}

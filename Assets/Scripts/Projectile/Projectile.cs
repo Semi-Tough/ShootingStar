@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -16,7 +15,7 @@ public class Projectile : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+            transform.Translate(moveDirection * (moveSpeed * Time.deltaTime));
             yield return null;
         }
     }
