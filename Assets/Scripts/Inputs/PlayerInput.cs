@@ -1,3 +1,11 @@
+/****************************************************
+    文件：PlayerInput.cs
+    作者：wzq
+    邮箱：1693416984@qq.com
+    日期：2022/04/10 17:40:10
+    功能：玩家输入控制
+*****************************************************/
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -21,17 +29,17 @@ public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
         DisableInput();
     }
 
-    private void DisableInput()
-    {
-        _inputActions.GamePlay.Disable();
-    }
-
     public void EnableGamePlayInput()
     {
         _inputActions.GamePlay.Enable();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void DisableInput()
+    {
+        _inputActions.GamePlay.Disable();
     }
 
     public void OnMove(InputAction.CallbackContext context)
