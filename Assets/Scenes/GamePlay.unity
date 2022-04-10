@@ -622,12 +622,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: paddingX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: paddingY
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: moveLerpTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: rotateLerpTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: accelerationTime
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: decelerationTime
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: moveRotationAngle

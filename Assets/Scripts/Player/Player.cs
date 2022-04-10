@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -9,10 +8,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveRotationAngle = 30f;
     [SerializeField] private float paddingX = 0.8f;
     [SerializeField] private float paddingY = 0.22f;
+
     [SerializeField] private float accelerationTime = 2f;
     [SerializeField] private float decelerationTime = 2f;
+
     private Rigidbody2D _rigidbody2D;
-    private Coroutine _moveCoroutine;
+    private Vector2 _moveInput;
+    private bool _onMove;
 
     private void Awake()
     {
@@ -37,46 +39,41 @@ public class Player : MonoBehaviour
         input.EnableGamePlayInput();
     }
 
+    private void Update()
+    {
+        if (_onMove)
+        {
+            MoveLerp(moveSpeed * _moveInput,
+                Quaternion.AngleAxis(moveRotationAngle * _moveInput.y, Vector3.right), accelerationTime);
+        }
+        else
+        {
+            MoveLerp(Vector2.zero, Quaternion.identity, decelerationTime);
+        }
+
+        if (_rigidbody2D.velocity.magnitude > 0.1f)
+        {
+            transform.position = Viewport.Instance.PlayerMobilePosition(transform.position, paddingX, paddingY);
+        }
+    }
+
     private void StartMove(Vector2 moveInput)
     {
-        if (_moveCoroutine != null)
-            StopCoroutine(_moveCoroutine);
-
-        _moveCoroutine = StartCoroutine(MoveCoroutine(moveSpeed * moveInput, accelerationTime,
-            Quaternion.AngleAxis(moveRotationAngle * moveInput.y, Vector3.right)));
-
-        StartCoroutine(MovePositionLimitCoroutine());
+        _moveInput = moveInput.normalized;
+        _onMove = true;
     }
 
     private void StopMove()
     {
-        if (_moveCoroutine != null)
-            StopCoroutine(_moveCoroutine);
-
-
-        _moveCoroutine = StartCoroutine(MoveCoroutine(Vector2.zero, decelerationTime, Quaternion.identity));
-        StopCoroutine(MovePositionLimitCoroutine());
+        _onMove = false;
     }
 
-    IEnumerator MovePositionLimitCoroutine()
-    {
-        while (true)
-        {
-            transform.position = Viewport.Instance.PlayerMobilePosition(transform.position, paddingX, paddingY);
-            yield return null;
-        }
-        // ReSharper disable once IteratorNeverReturns
-    }
-
-    IEnumerator MoveCoroutine(Vector2 moveVelocity, float time, Quaternion moveRotation)
+    private void MoveLerp(Vector2 moveVelocity, Quaternion moveRotation, float time)
     {
         float t = 0;
-        while (t < time)
-        {
-            t += Time.fixedDeltaTime / time;
-            _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, moveVelocity, t / time);
-            transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, t / time);
-            yield return null;
-        }
+        if (!(t < time)) return;
+        t += Time.fixedDeltaTime / time;
+        _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, moveVelocity, t / time);
+        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, t / time);
     }
 }
