@@ -1,3 +1,11 @@
+/****************************************************
+    文件：Player.cs
+    作者：wzq
+    邮箱：1693416984@qq.com
+    日期：2022/04/11 12:03:55
+    功能：角色控制
+*****************************************************/
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -8,10 +16,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveRotationAngle = 30f;
     [SerializeField] private float paddingX = 0.8f;
     [SerializeField] private float paddingY = 0.22f;
-
     [SerializeField] private float accelerationTime = 2f;
     [SerializeField] private float decelerationTime = 2f;
+    [SerializeField] private float fireInterval = 0.2f;
 
+    [SerializeField] private GameObject projectile;
+    [SerializeField] private Transform muzzle;
+
+    private WaitForSeconds waitForSeconds;
     private Rigidbody2D _rigidbody2D;
     private Vector2 _moveInput;
     private bool _onMove;
@@ -25,18 +37,23 @@ public class Player : MonoBehaviour
     {
         input.StartMove += StartMove;
         input.StopMove += StopMove;
+        input.StartFire += StartFire;
+        input.StopFire += StopFire;
     }
 
     private void OnDisable()
     {
         input.StartMove -= StartMove;
         input.StopMove -= StopMove;
+        input.StartFire -= StartFire;
+        input.StopFire -= StopFire;
     }
 
     private void Start()
     {
         _rigidbody2D.gravityScale = 0;
         input.EnableGamePlayInput();
+        waitForSeconds = new WaitForSeconds(fireInterval);
     }
 
     private void Update()
@@ -57,6 +74,8 @@ public class Player : MonoBehaviour
         }
     }
 
+    #region Move
+
     private void StartMove(Vector2 moveInput)
     {
         _moveInput = moveInput.normalized;
@@ -76,4 +95,30 @@ public class Player : MonoBehaviour
         _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, moveVelocity, t / time);
         transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, t / time);
     }
+
+    #endregion
+
+    #region Fire
+
+    private void StartFire()
+    {
+        StartCoroutine(nameof(FireCoroutine));
+    }
+
+    private void StopFire()
+    {
+        StopCoroutine(nameof(FireCoroutine));
+    }
+
+    IEnumerator FireCoroutine()
+    {
+        while (true)
+        {
+            Instantiate(projectile, muzzle.position, Quaternion.identity);
+            yield return waitForSeconds;
+        }
+        // ReSharper disable once IteratorNeverReturns
+    }
+
+    #endregion
 }
