@@ -98,9 +98,9 @@ public class Player : MonoBehaviour
     {
         float t = 0;
         if (!(t < time)) return;
-        t += Time.fixedDeltaTime / time;
-        _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, moveVelocity, t / time);
-        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, t / time);
+        t += Time.fixedDeltaTime;
+        _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, moveVelocity, t);
+        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, t);
     }
 
     #endregion
