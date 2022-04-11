@@ -15,7 +15,9 @@ using Object = UnityEngine.Object;
 public class Pool
 {
     public GameObject Prefab => prefab;
-
+    public int Size => size;
+    public int RunTimeSize => queue.Count;
+    
     [SerializeField] private GameObject prefab;
     [SerializeField] private int size = 1;
 
@@ -49,13 +51,14 @@ public class Pool
         else
         {
             availableGameObject = Copy();
-            queue.Enqueue(availableGameObject);
         }
 
         queue.Enqueue(availableGameObject);
 
         return availableGameObject;
     }
+
+    #region PreparedObject 重载
 
     public GameObject PreparedObject()
     {
@@ -90,4 +93,6 @@ public class Pool
         preparedObject.SetActive(true);
         return preparedObject;
     }
+
+    #endregion
 }

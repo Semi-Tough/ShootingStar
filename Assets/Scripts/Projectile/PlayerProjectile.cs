@@ -5,6 +5,15 @@
     日期：2022/04/11 12:05:08
     功能：玩家子弹基类
 *****************************************************/
+
+using UnityEngine;
+
 public class PlayerProjectile : Projectile
 {
+    [SerializeField] private TrailRenderer trailRenderer;
+
+    private void OnDisable()
+    {
+        trailRenderer.Clear();
+    }
 }

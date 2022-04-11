@@ -5,6 +5,7 @@
     日期：2022/04/11 12:03:55
     功能：角色控制
 *****************************************************/
+
 using System.Collections;
 using UnityEngine;
 
@@ -19,9 +20,15 @@ public class Player : MonoBehaviour
     [SerializeField] private float accelerationTime = 2f;
     [SerializeField] private float decelerationTime = 2f;
     [SerializeField] private float fireInterval = 0.2f;
+    [SerializeField, Range(0, 2)] private int weaponLevel = 1;
 
-    [SerializeField] private GameObject projectile;
-    [SerializeField] private Transform muzzle;
+    [SerializeField] private GameObject projectileTop;
+    [SerializeField] private GameObject projectileMiddle;
+    [SerializeField] private GameObject projectileBottom;
+
+    [SerializeField] private Transform muzzleTop;
+    [SerializeField] private Transform muzzleMiddle;
+    [SerializeField] private Transform muzzleBottom;
 
     private WaitForSeconds waitForSeconds;
     private Rigidbody2D _rigidbody2D;
@@ -114,7 +121,37 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(projectile, muzzle.position, Quaternion.identity);
+            // switch (weaponLevel)
+            // {
+            //     case 0:
+            //         Instantiate(projectileMiddle, muzzleMiddle.position, Quaternion.identity);
+            //         break;
+            //     case 1:
+            //         Instantiate(projectileMiddle, muzzleTop.position, Quaternion.identity);
+            //         Instantiate(projectileMiddle, muzzleBottom.position, Quaternion.identity);
+            //         break;
+            //     case 2:
+            //         Instantiate(projectileTop, muzzleTop.position, Quaternion.identity);
+            //         Instantiate(projectileMiddle, muzzleMiddle.position, Quaternion.identity);
+            //         Instantiate(projectileBottom, muzzleBottom.position, Quaternion.identity);
+            //         break;
+            // } 
+            switch (weaponLevel)
+            {
+                case 0:
+                    PoolManager.Release(projectileMiddle, muzzleMiddle.position);
+                    break;
+                case 1:
+                    PoolManager.Release(projectileMiddle, muzzleTop.position);
+                    PoolManager.Release(projectileMiddle, muzzleBottom.position);
+                    break;
+                case 2:
+                    PoolManager.Release(projectileTop, muzzleTop.position);
+                    PoolManager.Release(projectileMiddle, muzzleMiddle.position);
+                    PoolManager.Release(projectileBottom, muzzleBottom.position);
+                    break;
+            }
+
             yield return waitForSeconds;
         }
         // ReSharper disable once IteratorNeverReturns
