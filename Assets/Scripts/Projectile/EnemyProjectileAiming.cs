@@ -6,6 +6,7 @@
     功能：敌人的瞄准子弹
 *****************************************************/
 
+using System.Collections;
 using UnityEngine;
 
 public class EnemyProjectileAiming : Projectile
@@ -17,11 +18,14 @@ public class EnemyProjectileAiming : Projectile
         target = GameObject.FindWithTag("Player");
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        if (target.activeSelf)
-        {
-            moveDirection = (target.transform.position - transform.position).normalized;
-        }
+        StartCoroutine(DirectionCoroutine());
+    }
+
+    IEnumerator DirectionCoroutine()
+    {
+        yield return null;
+        moveDirection = (target.transform.position - transform.position).normalized;
     }
 }
