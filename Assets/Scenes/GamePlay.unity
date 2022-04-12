@@ -224,8 +224,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -5334849648001231648, guid: c09767a80c39dca498c95b2e5be1afd8, type: 3}
+      propertyPath: maxIntervalFire
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5334849648001231648, guid: c09767a80c39dca498c95b2e5be1afd8, type: 3}
       propertyPath: minIntervalFire
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 578449712315536098, guid: c09767a80c39dca498c95b2e5be1afd8, type: 3}
       propertyPath: m_RootOrder
@@ -394,6 +398,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6145070827934833189, guid: a624a0e3000461e4286965f8a65aedb6, type: 3}
+      propertyPath: maxIntervalFire
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 214778051926960353, guid: a624a0e3000461e4286965f8a65aedb6, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -708,6 +716,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8887706424098087847, guid: 2ab3ff156c8f1c149a4d4fe513936685, type: 3}
+      propertyPath: maxIntervalFire
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8887706424098087847, guid: 2ab3ff156c8f1c149a4d4fe513936685, type: 3}
+      propertyPath: projectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 8170931702890372077, guid: 55b6151185ad44141b4c454b0ba276ab, type: 3}
     - target: {fileID: 8921546478736950316, guid: 2ab3ff156c8f1c149a4d4fe513936685, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -799,8 +815,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
-      propertyPath: fireInterval
-      value: 0.15
+      propertyPath: weaponLevel
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6435389010079767248, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: m_RootOrder
@@ -812,7 +828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6435389010079767248, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.462
       objectReference: {fileID: 0}
     - target: {fileID: 6435389010079767248, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1031,6 +1047,14 @@ MonoBehaviour:
     size: 8
   enemyProjectilePools:
   - prefab: {fileID: 8170931702890372077, guid: d35ac588666b92e4599070d1d5c0265d, type: 3}
+    size: 10
+  - prefab: {fileID: 8170931702890372077, guid: edb9ea55bf3d5144aa652b85db91ff3b, type: 3}
+    size: 10
+  - prefab: {fileID: 8170931702890372077, guid: 95aad9f602ad8944081ea5f642de16ba, type: 3}
+    size: 10
+  - prefab: {fileID: 8170931702890372077, guid: 11ae14c0b2a296d448af207d25d7d9ba, type: 3}
+    size: 10
+  - prefab: {fileID: 8170931702890372077, guid: 55b6151185ad44141b4c454b0ba276ab, type: 3}
     size: 10
 --- !u!4 &2111967863
 Transform:

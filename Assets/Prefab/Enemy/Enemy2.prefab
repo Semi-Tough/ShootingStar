@@ -14610,6 +14610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa882ef204f4e709da25490942f30f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathVFX: {fileID: 0}
+  maxHealth: 5
   paddingX: 1
   paddingY: 0.5
   moveSpeed: 2

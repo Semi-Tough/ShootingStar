@@ -29180,6 +29180,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d51ab74ccc9a342ab6844c06108fc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathVFX: {fileID: 0}
+  maxHealth: 100
+  regenerateHealth: 1
+  regenerateTime: 2
+  regeneratePercent: 0.05
   input: {fileID: 11400000, guid: e8fe452e4bd83d641991e8f826abae73, type: 2}
   moveSpeed: 6
   moveRotationAngle: 30
@@ -29187,8 +29192,8 @@ MonoBehaviour:
   paddingY: 0.8
   accelerationTime: 0.6
   decelerationTime: 1
-  fireInterval: 0.2
   weaponLevel: 1
+  fireInterval: 0.15
   projectileTop: {fileID: 1395877206129221009, guid: 00453963df14c1e4086bc21120116f9f, type: 3}
   projectileMiddle: {fileID: 1395877206129221009, guid: 0596cbf5e85ee8b42abdc3d7511408b6, type: 3}
   projectileBottom: {fileID: 1395877206129221009, guid: b2d75e38575d6de4e9908ee9acc7375b, type: 3}

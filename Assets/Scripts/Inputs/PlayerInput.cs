@@ -46,12 +46,12 @@ public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.performed)
         {
             StartMove.Invoke(context.ReadValue<Vector2>());
         }
 
-        if (context.phase == InputActionPhase.Canceled)
+        if (context.canceled)
         {
             StopMove.Invoke();
         }
@@ -59,12 +59,12 @@ public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.performed)
         {
             StartFire.Invoke();
         }
 
-        if (context.phase==InputActionPhase.Canceled)
+        if (context.canceled)
         {
             StopFire.Invoke();
         }

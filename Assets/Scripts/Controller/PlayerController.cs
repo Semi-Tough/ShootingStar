@@ -10,27 +10,38 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : Controller
 {
+    [SerializeField] private bool regenerateHealth = true;
+    [SerializeField] private float regenerateTime = 1;
+    [SerializeField] private float regeneratePercent = 1;
+
+    [Header("--------Input--------")]
     [SerializeField] private PlayerInput input;
+
+    [Header("--------Move--------")]
     [SerializeField] private float moveSpeed = 6f;
+
     [SerializeField] private float moveRotationAngle = 30f;
     [SerializeField] private float paddingX = 0.8f;
     [SerializeField] private float paddingY = 0.22f;
     [SerializeField] private float accelerationTime = 2f;
     [SerializeField] private float decelerationTime = 2f;
-    [SerializeField] private float fireInterval = 0.2f;
+
+    [Header("--------Fire--------")]
     [SerializeField, Range(0, 2)] private int weaponLevel = 1;
 
+    [SerializeField] private float fireInterval = 0.2f;
     [SerializeField] private GameObject projectileTop;
     [SerializeField] private GameObject projectileMiddle;
     [SerializeField] private GameObject projectileBottom;
-
     [SerializeField] private Transform muzzleTop;
     [SerializeField] private Transform muzzleMiddle;
     [SerializeField] private Transform muzzleBottom;
 
-    private WaitForSeconds waitForSeconds;
+    private Coroutine regenerateCoroutine;
+    private WaitForSeconds waitForFire;
+    private WaitForSeconds waitForRegenerate;
     private Rigidbody2D _rigidbody2D;
     private Vector2 _moveInput;
     private bool _onMove;
@@ -40,8 +51,9 @@ public class PlayerController : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         input.StartMove += StartMove;
         input.StopMove += StopMove;
         input.StartFire += StartFire;
@@ -60,8 +72,10 @@ public class PlayerController : MonoBehaviour
     {
         _rigidbody2D.gravityScale = 0;
         input.EnableGamePlayInput();
-        waitForSeconds = new WaitForSeconds(fireInterval);
+        waitForFire = new WaitForSeconds(fireInterval);
+        waitForRegenerate = new WaitForSeconds(regenerateTime);
     }
+
 
     private void Update()
     {
@@ -152,10 +166,27 @@ public class PlayerController : MonoBehaviour
                     break;
             }
 
-            yield return waitForSeconds;
+            yield return waitForFire;
         }
         // ReSharper disable once IteratorNeverReturns
     }
 
     #endregion
+
+    protected override void TakeDamage(float value)
+    {
+        base.TakeDamage(value);
+        if (gameObject.activeSelf)
+        {
+            if (regenerateHealth)
+            {
+                if (regenerateCoroutine != null)
+                {
+                    StopCoroutine(regenerateCoroutine);
+                }
+
+                regenerateCoroutine = StartCoroutine(HealthRegenerateCoroutine(waitForRegenerate, regeneratePercent));
+            }
+        }
+    }
 }

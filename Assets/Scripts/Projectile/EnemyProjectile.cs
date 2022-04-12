@@ -10,4 +10,11 @@ using UnityEngine;
 
 public class EnemyProjectile : Projectile
 {
+    private void Awake()
+    {
+        if (moveDirection != Vector3.left)
+        {
+            transform.rotation = Quaternion.FromToRotation(Vector3.left, moveDirection);
+        }
+    }
 }

@@ -76,15 +76,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa882ef204f4e709da25490942f30f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathVFX: {fileID: 0}
+  maxHealth: 10
   paddingX: 1
   paddingY: 0.5
   moveSpeed: 3
   moveRotationAngle: 35
   smoothTime: 0.6
-  minIntervalFire: 1
+  minIntervalFire: 0.5
   maxIntervalFire: 1
   projectiles:
-  - {fileID: 8170931702890372077, guid: d35ac588666b92e4599070d1d5c0265d, type: 3}
+  - {fileID: 8170931702890372077, guid: edb9ea55bf3d5144aa652b85db91ff3b, type: 3}
+  - {fileID: 8170931702890372077, guid: 95aad9f602ad8944081ea5f642de16ba, type: 3}
+  - {fileID: 8170931702890372077, guid: 11ae14c0b2a296d448af207d25d7d9ba, type: 3}
   muzzle: {fileID: 1646408515}
 --- !u!1 &6141127440874144652
 GameObject:

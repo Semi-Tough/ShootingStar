@@ -9,13 +9,17 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : Controller
 {
+    
+    [Header("--------Move--------")]
     [SerializeField] private float paddingX;
     [SerializeField] private float paddingY;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float moveRotationAngle = 30f;
     [SerializeField] private float smoothTime = 1f;
+    
+    [Header("--------Fire--------")]
     [SerializeField] private float minIntervalFire;
     [SerializeField] private float maxIntervalFire;
     [SerializeField] private GameObject[] projectiles;
@@ -24,8 +28,9 @@ public class EnemyController : MonoBehaviour
     private Vector3 targetPosition;
 
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         transform.position = Viewport.Instance.RandomEnemySpawnPosition(paddingX, paddingY);
         targetPosition = Viewport.Instance.RandomRightHalfPosition(paddingX, paddingY);
         StartCoroutine(nameof(RandomFire));

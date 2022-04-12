@@ -7,11 +7,11 @@ public class AutoDeactivate : MonoBehaviour
     [SerializeField] private bool destroyGameObject;
 
    
-    private WaitForSeconds waitForSeconds;
+    private WaitForSeconds waitForDeactivate;
 
     private void Awake()
     {
-        waitForSeconds = new WaitForSeconds(lifeTime);
+        waitForDeactivate = new WaitForSeconds(lifeTime);
     }
 
     private void OnEnable()
@@ -21,7 +21,7 @@ public class AutoDeactivate : MonoBehaviour
 
     IEnumerator DeactivateCoroutine()
     {
-        yield return waitForSeconds;
+        yield return waitForDeactivate;
         if (destroyGameObject)
         {
             Destroy(gameObject);
