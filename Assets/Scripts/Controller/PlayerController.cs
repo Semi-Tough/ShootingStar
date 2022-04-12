@@ -1,16 +1,16 @@
 /****************************************************
-    文件：Player.cs
+    文件：PlayerController.cs
     作者：wzq
     邮箱：1693416984@qq.com
     日期：2022/04/11 12:03:55
-    功能：角色控制
+    功能：玩家角色控制器
 *****************************************************/
 
 using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] private PlayerInput input;
     [SerializeField] private float moveSpeed = 6f;
@@ -67,12 +67,12 @@ public class Player : MonoBehaviour
     {
         if (_onMove)
         {
-            MoveLerp(moveSpeed * _moveInput,
+            MoveAndRotationLerp(moveSpeed * _moveInput,
                 Quaternion.AngleAxis(moveRotationAngle * _moveInput.y, Vector3.right), accelerationTime);
         }
         else
         {
-            MoveLerp(Vector2.zero, Quaternion.identity, decelerationTime);
+            MoveAndRotationLerp(Vector2.zero, Quaternion.identity, decelerationTime);
         }
 
         if (_rigidbody2D.velocity.magnitude > 0.1f)
@@ -94,7 +94,7 @@ public class Player : MonoBehaviour
         _onMove = false;
     }
 
-    private void MoveLerp(Vector2 moveVelocity, Quaternion moveRotation, float time)
+    private void MoveAndRotationLerp(Vector2 moveVelocity, Quaternion moveRotation, float time)
     {
         float t = 0;
         if (!(t < time)) return;

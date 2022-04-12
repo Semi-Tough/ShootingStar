@@ -5,6 +5,8 @@ public class AutoDeactivate : MonoBehaviour
 {
     [SerializeField] private float lifeTime = 3f;
     [SerializeField] private bool destroyGameObject;
+
+   
     private WaitForSeconds waitForSeconds;
 
     private void Awake()
@@ -29,4 +31,6 @@ public class AutoDeactivate : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+
 }

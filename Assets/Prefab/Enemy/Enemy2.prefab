@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &535307375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 535307376}
+  m_Layer: 7
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &535307376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535307375}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.8, y: -0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8921546478736950316}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2113195118466191616
 GameObject:
   m_ObjectHideFlags: 0
@@ -14543,6 +14573,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8921546478736950316}
+  - component: {fileID: -8887706424098087847}
   m_Layer: 7
   m_Name: Enemy2
   m_TagString: Player
@@ -14563,6 +14594,29 @@ Transform:
   m_Children:
   - {fileID: 3901138111850186699}
   - {fileID: 2808702474208388368}
+  - {fileID: 535307376}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8887706424098087847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8921546478736950322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa882ef204f4e709da25490942f30f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paddingX: 1
+  paddingY: 0.5
+  moveSpeed: 2
+  moveRotationAngle: 30
+  smoothTime: 1
+  minIntervalFire: 1
+  maxIntervalFire: 3
+  projectiles:
+  - {fileID: 8170931702890372077, guid: d35ac588666b92e4599070d1d5c0265d, type: 3}
+  muzzle: {fileID: 535307376}

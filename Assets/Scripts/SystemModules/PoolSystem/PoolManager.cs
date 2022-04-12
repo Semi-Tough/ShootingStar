@@ -12,6 +12,7 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     [SerializeField] private Pool[] playerProjectilePools;
+    [SerializeField] private Pool[] enemyProjectilePools;
     private static Dictionary<GameObject, Pool> _dictionary;
 
     private void Awake()
@@ -22,6 +23,7 @@ public class PoolManager : MonoBehaviour
     private void Start()
     {
         Initialized(playerProjectilePools);
+        Initialized(enemyProjectilePools);
     }
 
     private void Initialized(Pool[] pools)
@@ -50,8 +52,8 @@ public class PoolManager : MonoBehaviour
             if (pool.RunTimeSize > pool.Size)
             {
                 Debug.LogWarning($"Pool:{pool.Prefab.name} " +
-                                 $"has a runtime size {pool.RunTimeSize.ToString()}" +
-                                 $"bigger than its initial size {pool.Size.ToString()}");
+                                 $" has a runtime size {pool.RunTimeSize.ToString()}" +
+                                 $" bigger than its initial size {pool.Size.ToString()}");
             }
         }
     }
@@ -59,6 +61,7 @@ public class PoolManager : MonoBehaviour
     private void OnDestroy()
     {
         CheckPoolSize(playerProjectilePools);
+        CheckPoolSize(enemyProjectilePools);
     }
 #endif
 

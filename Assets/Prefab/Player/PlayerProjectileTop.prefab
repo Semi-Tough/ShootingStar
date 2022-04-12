@@ -4852,7 +4852,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   moveDirection: {x: 1, y: 0.05, z: 0}
-  trailRenderer: {fileID: 1395877206336355524}
 --- !u!114 &7434639498503095256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4865,7 +4864,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe917e7fe184cd7a40a3b8b3f6d1ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
+  lifeTime: 1.2
+  trailRenderer: {fileID: 1395877206336355524}
   destroyGameObject: 0
 --- !u!1 &1395877206336355526
 GameObject:
