@@ -108,13 +108,13 @@ public class PlayerController : Controller
         _onMove = false;
     }
 
-    private void MoveAndRotationLerp(Vector2 moveVelocity, Quaternion moveRotation, float time)
+    private void MoveAndRotationLerp(Vector2 moveVelocity, Quaternion moveRotation, float lerpTime)
     {
-        float t = 0;
-        if (!(t < time)) return;
-        t += Time.fixedDeltaTime;
-        _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, moveVelocity, t);
-        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, t);
+        float timer = 0;
+        if (!(timer < lerpTime)) return;
+        timer += Time.fixedDeltaTime;
+        _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, moveVelocity, timer);
+        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, timer);
     }
 
     #endregion
@@ -173,7 +173,7 @@ public class PlayerController : Controller
 
     #endregion
 
-    protected override void TakeDamage(float value)
+    public override void TakeDamage(float value)
     {
         base.TakeDamage(value);
         if (gameObject.activeSelf)

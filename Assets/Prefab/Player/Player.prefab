@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44583731}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6, y: -0.1, z: 0}
+  m_LocalPosition: {x: 0.9, y: -0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6435389010079767248}
@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105180503}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6, y: 0.05, z: 0}
+  m_LocalPosition: {x: 0.9, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6435389010079767248}
@@ -84,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407137511}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6, y: -0.05, z: 0}
+  m_LocalPosition: {x: 0.9, y: -0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6435389010079767248}
@@ -29121,6 +29121,7 @@ GameObject:
   - component: {fileID: 6435389010079767248}
   - component: {fileID: 182882158}
   - component: {fileID: 182882157}
+  - component: {fileID: 1604924330}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -29167,7 +29168,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &182882157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29192,7 +29193,7 @@ MonoBehaviour:
   paddingY: 0.8
   accelerationTime: 0.6
   decelerationTime: 1
-  weaponLevel: 1
+  weaponLevel: 2
   fireInterval: 0.15
   projectileTop: {fileID: 1395877206129221009, guid: 00453963df14c1e4086bc21120116f9f, type: 3}
   projectileMiddle: {fileID: 1395877206129221009, guid: 0596cbf5e85ee8b42abdc3d7511408b6, type: 3}
@@ -29200,6 +29201,22 @@ MonoBehaviour:
   muzzleTop: {fileID: 105180504}
   muzzleMiddle: {fileID: 1407137512}
   muzzleBottom: {fileID: 44583732}
+--- !u!70 &1604924330
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435389010079767255}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.5, y: 0.4}
+  m_Direction: 1
 --- !u!1 &6758096032694626173
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class Controller : MonoBehaviour
         health = maxHealth;
     }
 
-    protected virtual void TakeDamage(float value)
+    public virtual void TakeDamage(float value)
     {
         health -= value;
         if (health < 0)

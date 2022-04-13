@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1395877204580144418}
   - component: {fileID: 1395877204580144416}
   - component: {fileID: 1395877204580144417}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4816,7 +4816,8 @@ GameObject:
   - component: {fileID: 1395877206129221008}
   - component: {fileID: 1395877206129221039}
   - component: {fileID: 7434639498503095256}
-  m_Layer: 0
+  - component: {fileID: 6858828456662261273}
+  m_Layer: 8
   m_Name: PlayerProjectileTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4850,8 +4851,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b9cd6e826cd51144a8fd19359f0560d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitVFX: {fileID: 5060298685065931927, guid: 6775c68a79b34db4fa2fd4db2a4cdf74, type: 3}
+  damage: 1
   moveSpeed: 15
-  moveDirection: {x: 1, y: 0.05, z: 0}
+  moveDirection: {x: 1, y: 0.06, z: 0}
 --- !u!114 &7434639498503095256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4866,6 +4869,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 1.2
   destroyGameObject: 0
+--- !u!70 &6858828456662261273
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395877206129221009}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.02, y: 0}
+  m_Size: {x: 0.26, y: 0.15}
+  m_Direction: 1
 --- !u!1 &1395877206336355526
 GameObject:
   m_ObjectHideFlags: 0
@@ -4876,7 +4895,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1395877206336355525}
   - component: {fileID: 1395877206336355524}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
