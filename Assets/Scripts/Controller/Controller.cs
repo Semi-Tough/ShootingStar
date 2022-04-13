@@ -17,17 +17,44 @@ public class Controller : MonoBehaviour
     [Header("--------Health--------")]
     [SerializeField] protected float maxHealth;
 
+    [SerializeField] private StatsBar headHealthBar;
+    [SerializeField] private bool showHeadHealthBar = true;
+
     private float health;
 
     protected virtual void OnEnable()
     {
         health = maxHealth;
+        if (showHeadHealthBar)
+        {
+            ShowHeadHealthBar();
+        }
+        else
+        {
+            HideHeadHealthBar();
+        }
+    }
+
+    private void ShowHeadHealthBar()
+    {
+        headHealthBar.gameObject.SetActive(true);
+        headHealthBar.Initialize(health, maxHealth);
+    }
+
+    private void HideHeadHealthBar()
+    {
+        headHealthBar.gameObject.SetActive(false);
     }
 
     public virtual void TakeDamage(float value)
     {
         health -= value;
-        if (health < 0)
+        if (showHeadHealthBar)
+        {
+            headHealthBar.UpdateStats(health, maxHealth);
+        }
+
+        if (health <= 0)
         {
             Die();
         }
@@ -36,6 +63,12 @@ public class Controller : MonoBehaviour
     protected virtual void RestoreHealth(float value)
     {
         health += value;
+
+        if (showHeadHealthBar)
+        {
+            headHealthBar.UpdateStats(health, maxHealth);
+        }
+
         if (health >= maxHealth)
         {
             health = maxHealth;
