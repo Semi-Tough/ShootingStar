@@ -16,6 +16,7 @@ public class Controller : MonoBehaviour
 
     [Header("--------Health--------")]
     [SerializeField] protected float maxHealth;
+
     [SerializeField] private StatsBar headHealthBar;
     [SerializeField] private bool showHeadHealthBar = true;
 
@@ -33,7 +34,7 @@ public class Controller : MonoBehaviour
             HideHeadHealthBar();
         }
     }
-
+    
     private void ShowHeadHealthBar()
     {
         headHealthBar.gameObject.SetActive(true);
@@ -53,7 +54,7 @@ public class Controller : MonoBehaviour
             headHealthBar.UpdateStats(CurrentHealth, maxHealth);
         }
 
-        if (CurrentHealth <=                                      0)
+        if (CurrentHealth <= 0)
         {
             Die();
         }

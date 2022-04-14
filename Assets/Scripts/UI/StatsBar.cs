@@ -33,7 +33,6 @@ public class StatsBar : MonoBehaviour
         waitForSeconds = new WaitForSeconds(fillDelay);
     }
 
-
     public virtual void Initialize(float currentHealth, float maxHealth)
     {
         currentFillAmount = currentHealth / maxHealth;
@@ -56,8 +55,7 @@ public class StatsBar : MonoBehaviour
             imgFrontFill.fillAmount = TargetFillAmount;
             fillCoroutine = StartCoroutine(FillCoroutine(imgBackFill));
         }
-
-        if (currentFillAmount < TargetFillAmount)
+        else if (currentFillAmount < TargetFillAmount)
         {
             imgBackFill.fillAmount = TargetFillAmount;
             fillCoroutine = StartCoroutine(FillCoroutine(imgFrontFill));

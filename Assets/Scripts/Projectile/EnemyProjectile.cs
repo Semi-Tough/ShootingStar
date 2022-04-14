@@ -17,4 +17,6 @@ public class EnemyProjectile : Projectile
             transform.rotation = Quaternion.FromToRotation(Vector3.left, moveDirection);
         }
     }
+
+   
 }
