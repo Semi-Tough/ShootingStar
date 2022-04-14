@@ -16,15 +16,14 @@ public class Controller : MonoBehaviour
 
     [Header("--------Health--------")]
     [SerializeField] protected float maxHealth;
-
     [SerializeField] private StatsBar headHealthBar;
     [SerializeField] private bool showHeadHealthBar = true;
 
-    private float health;
+    protected float CurrentHealth;
 
     protected virtual void OnEnable()
     {
-        health = maxHealth;
+        CurrentHealth = maxHealth;
         if (showHeadHealthBar)
         {
             ShowHeadHealthBar();
@@ -38,7 +37,7 @@ public class Controller : MonoBehaviour
     private void ShowHeadHealthBar()
     {
         headHealthBar.gameObject.SetActive(true);
-        headHealthBar.Initialize(health, maxHealth);
+        headHealthBar.Initialize(CurrentHealth, maxHealth);
     }
 
     private void HideHeadHealthBar()
@@ -46,15 +45,15 @@ public class Controller : MonoBehaviour
         headHealthBar.gameObject.SetActive(false);
     }
 
-    public virtual void TakeDamage(float value)
+    public virtual void TakeDamage(float damage)
     {
-        health -= value;
+        CurrentHealth -= damage;
         if (showHeadHealthBar)
         {
-            headHealthBar.UpdateStats(health, maxHealth);
+            headHealthBar.UpdateStats(CurrentHealth, maxHealth);
         }
 
-        if (health <= 0)
+        if (CurrentHealth <=                                      0)
         {
             Die();
         }
@@ -62,16 +61,16 @@ public class Controller : MonoBehaviour
 
     protected virtual void RestoreHealth(float value)
     {
-        health += value;
+        CurrentHealth += value;
 
         if (showHeadHealthBar)
         {
-            headHealthBar.UpdateStats(health, maxHealth);
+            headHealthBar.UpdateStats(CurrentHealth, maxHealth);
         }
 
-        if (health >= maxHealth)
+        if (CurrentHealth >= maxHealth)
         {
-            health = maxHealth;
+            CurrentHealth = maxHealth;
         }
 
         //health = Mathf.Clamp(health += value, 0, maxHealth);
@@ -79,14 +78,14 @@ public class Controller : MonoBehaviour
 
     protected virtual void Die()
     {
-        health = 0f;
+        CurrentHealth = 0f;
         PoolManager.Release(deathVFX, transform.position);
         gameObject.SetActive(false);
     }
 
     protected IEnumerator HealthRegenerateCoroutine(WaitForSeconds waitForHealth, float percent)
     {
-        while (health < maxHealth)
+        while (CurrentHealth < maxHealth)
         {
             yield return waitForHealth;
             RestoreHealth(maxHealth * percent);
@@ -95,7 +94,7 @@ public class Controller : MonoBehaviour
 
     protected IEnumerator DamageOverTimeCoroutine(WaitForSeconds waitForDamage, float percent)
     {
-        while (health > 0)
+        while (CurrentHealth > 0)
         {
             yield return waitForDamage;
             TakeDamage(maxHealth * percent);

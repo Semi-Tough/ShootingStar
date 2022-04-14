@@ -18,11 +18,13 @@ public class StatsBar : MonoBehaviour
     [SerializeField] private float fillDelay = 0.5f;
     [SerializeField] private bool delayFill = true;
 
+
     private WaitForSeconds waitForSeconds;
     private Coroutine fillCoroutine;
     private Canvas canvas;
+
     private float currentFillAmount;
-    private float targetFillAmount;
+    protected float TargetFillAmount;
 
     private void Awake()
     {
@@ -32,37 +34,37 @@ public class StatsBar : MonoBehaviour
     }
 
 
-    public void Initialize(float currentValue, float maxValue)
+    public virtual void Initialize(float currentHealth, float maxHealth)
     {
-        currentFillAmount = currentValue / maxValue;
-        targetFillAmount = currentFillAmount;
-        imgFrontFill.fillAmount = currentValue;
-        imgBackFill.fillAmount = currentValue;
+        currentFillAmount = currentHealth / maxHealth;
+        TargetFillAmount = currentFillAmount;
+        imgFrontFill.fillAmount = currentHealth;
+        imgBackFill.fillAmount = currentHealth;
     }
 
-    public void UpdateStats(float currentValue, float maxValue)
+    public void UpdateStats(float currentHealth, float maxHealth)
     {
         if (gameObject.activeSelf == false) return;
-        targetFillAmount = currentValue / maxValue;
+        TargetFillAmount = currentHealth / maxHealth;
         if (fillCoroutine != null)
         {
             StopCoroutine(fillCoroutine);
         }
 
-        if (currentFillAmount > targetFillAmount)
+        if (currentFillAmount > TargetFillAmount)
         {
-            imgFrontFill.fillAmount = targetFillAmount;
+            imgFrontFill.fillAmount = TargetFillAmount;
             fillCoroutine = StartCoroutine(FillCoroutine(imgBackFill));
         }
 
-        if (currentFillAmount < targetFillAmount)
+        if (currentFillAmount < TargetFillAmount)
         {
-            imgBackFill.fillAmount = targetFillAmount;
+            imgBackFill.fillAmount = TargetFillAmount;
             fillCoroutine = StartCoroutine(FillCoroutine(imgFrontFill));
         }
     }
 
-    IEnumerator FillCoroutine(Image image)
+    protected virtual IEnumerator FillCoroutine(Image image)
     {
         if (delayFill) yield return waitForSeconds;
 
@@ -70,7 +72,7 @@ public class StatsBar : MonoBehaviour
         while (progress < 1)
         {
             progress += Time.deltaTime * fillSpeed;
-            currentFillAmount = Mathf.Lerp(currentFillAmount, targetFillAmount, progress);
+            currentFillAmount = Mathf.Lerp(currentFillAmount, TargetFillAmount, progress);
             image.fillAmount = currentFillAmount;
             yield return null;
         }
