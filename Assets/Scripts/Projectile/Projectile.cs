@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
 
 
         RaycastHit2D hit2D = Physics2D.BoxCast(nextPosition, new Vector2(0.2f, 0.1f), 0,
-            (nextPosition - lastPosition).normalized, 0.1f);
+            (nextPosition - lastPosition).normalized, (nextPosition-lastPosition).magnitude);
 
         if (!hit2D) return;
         if (playerProjectile)
