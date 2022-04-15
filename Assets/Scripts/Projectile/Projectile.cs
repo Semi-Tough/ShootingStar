@@ -11,7 +11,6 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private bool playerProjectile;
-
     [SerializeField] private GameObject hitVFX;
     [SerializeField] private float damage = 1f;
     [SerializeField] private float moveSpeed = 10f;
@@ -59,12 +58,5 @@ public class Projectile : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawCube(nextPosition, new Vector2(0.2f, 0.1f));
     }
-    // private void OnCollisionEnter2D(Collision2D other)
-    // {
-    //     if (!other.gameObject.TryGetComponent(out Controller controller)) return;
-    //     controller.TakeDamage(damage);
-    //     ContactPoint2D point2D = other.GetContact(0);
-    //     PoolManager.Release(hitVFX, point2D.point, Quaternion.LookRotation(point2D.normal));
-    //     gameObject.SetActive(false);
-    // }
+   
 }
