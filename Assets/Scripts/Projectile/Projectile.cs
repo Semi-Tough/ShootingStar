@@ -28,28 +28,25 @@ public class Projectile : MonoBehaviour
 
 
         RaycastHit2D hit2D = Physics2D.BoxCast(nextPosition, new Vector2(0.2f, 0.1f), 0,
-            (nextPosition - lastPosition).normalized, (nextPosition-lastPosition).magnitude);
+            (nextPosition - lastPosition).normalized, (nextPosition - lastPosition).magnitude);
 
         if (!hit2D) return;
         if (playerProjectile)
         {
-            if (hit2D.collider.CompareTag("Enemy"))
-            {
-                if (!hit2D.transform.TryGetComponent(out Controller controller)) return;
-                controller.TakeDamage(damage);
-                PoolManager.Release(hitVFX, hit2D.point, Quaternion.LookRotation(hit2D.normal));
-                gameObject.SetActive(false);
-            }
+            if (!hit2D.collider.CompareTag("Enemy")) return;
+            if (!hit2D.transform.TryGetComponent(out Controller controller)) return;
+            controller.TakeDamage(damage);
+            PoolManager.Release(hitVFX, hit2D.point, Quaternion.LookRotation(hit2D.normal));
+            gameObject.SetActive(false);
+            PlayerEnergy.Instance.EnergyObtain(PlayerEnergy.Percent);
         }
         else
         {
-            if (hit2D.collider.CompareTag("Player"))
-            {
-                if (!hit2D.transform.TryGetComponent(out Controller controller)) return;
-                controller.TakeDamage(damage);
-                PoolManager.Release(hitVFX, hit2D.point, Quaternion.LookRotation(hit2D.normal));
-                gameObject.SetActive(false);
-            }
+            if (!hit2D.collider.CompareTag("Player")) return;
+            if (!hit2D.transform.TryGetComponent(out Controller controller)) return;
+            controller.TakeDamage(damage);
+            PoolManager.Release(hitVFX, hit2D.point, Quaternion.LookRotation(hit2D.normal));
+            gameObject.SetActive(false);
         }
     }
 
@@ -58,5 +55,4 @@ public class Projectile : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawCube(nextPosition, new Vector2(0.2f, 0.1f));
     }
-   
 }

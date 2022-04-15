@@ -12,7 +12,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : Controller
 {
-    [SerializeField] private StatsBarHUD statsBarHUD;
+    [SerializeField] private StatsBarHUD PlayerHealthBarHUD;
     [SerializeField] private bool regenerateHealth = true;
     [SerializeField] private float regenerateTime = 1;
     [SerializeField] private float regeneratePercent = 1;
@@ -75,7 +75,7 @@ public class PlayerController : Controller
         input.EnableGamePlayInput();
         waitForFire = new WaitForSeconds(fireInterval);
         waitForRegenerate = new WaitForSeconds(regenerateTime);
-        statsBarHUD.Initialize(CurrentHealth, maxHealth);
+        PlayerHealthBarHUD.Initialize(CurrentHealth, maxHealth);
     }
 
 
@@ -178,7 +178,7 @@ public class PlayerController : Controller
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        statsBarHUD.UpdateStats(CurrentHealth, maxHealth);
+        PlayerHealthBarHUD.UpdateStats(CurrentHealth, maxHealth);
 
         if (gameObject.activeSelf)
         {
@@ -197,12 +197,12 @@ public class PlayerController : Controller
     protected override void RestoreHealth(float value)
     {
         base.RestoreHealth(value);
-        statsBarHUD.UpdateStats(CurrentHealth, maxHealth);
+        PlayerHealthBarHUD.UpdateStats(CurrentHealth, maxHealth);
     }
 
     protected override void Die()
     {
-        statsBarHUD.UpdateStats(0, maxHealth);
+        PlayerHealthBarHUD.UpdateStats(0, maxHealth);
         base.Die();
     }
 }

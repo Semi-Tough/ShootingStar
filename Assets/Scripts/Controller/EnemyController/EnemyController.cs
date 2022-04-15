@@ -11,16 +11,18 @@ using UnityEngine;
 
 public class EnemyController : Controller
 {
-    
+    [SerializeField] private int energy = 3;
+
     [Header("--------Move--------")]
     [SerializeField] private float paddingX;
     [SerializeField] private float paddingY;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float moveRotationAngle = 30f;
     [SerializeField] private float smoothTime = 1f;
-    
+
     [Header("--------Fire--------")]
     [SerializeField] private float minIntervalFire;
+
     [SerializeField] private float maxIntervalFire;
     [SerializeField] private GameObject[] projectiles;
     [SerializeField] private Transform muzzle;
@@ -81,5 +83,11 @@ public class EnemyController : Controller
             }
         }
         // ReSharper disable once IteratorNeverReturns
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        PlayerEnergy.Instance.EnergyObtain(energy);
     }
 }

@@ -19,9 +19,9 @@ public class StatsBarHUD : StatsBar
         txtPercent.text = Mathf.RoundToInt(TargetFillAmount * 100) + "%";
     }
 
-    public override void Initialize(float currentHealth, float maxHealth)
+    public override void Initialize(float currentValue, float maxHealth)
     {
-        base.Initialize(currentHealth, maxHealth);
+        base.Initialize(currentValue, maxHealth);
         SetTxtPercent();
     }
 

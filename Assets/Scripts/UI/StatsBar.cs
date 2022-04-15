@@ -21,30 +21,32 @@ public class StatsBar : MonoBehaviour
 
     private WaitForSeconds waitForSeconds;
     private Coroutine fillCoroutine;
-    private Canvas canvas;
 
     private float currentFillAmount;
     protected float TargetFillAmount;
 
     private void Awake()
     {
-        canvas = GetComponent<Canvas>();
-        canvas.worldCamera = Camera.main;
+        if (TryGetComponent(out Canvas canvas))
+        {
+            canvas.worldCamera = Camera.main;
+        }
+
         waitForSeconds = new WaitForSeconds(fillDelay);
     }
 
-    public virtual void Initialize(float currentHealth, float maxHealth)
+    public virtual void Initialize(float currentValue, float maxValue)
     {
-        currentFillAmount = currentHealth / maxHealth;
+        currentFillAmount = currentValue / maxValue;
         TargetFillAmount = currentFillAmount;
-        imgFrontFill.fillAmount = currentHealth;
-        imgBackFill.fillAmount = currentHealth;
+        imgFrontFill.fillAmount = currentValue;
+        imgBackFill.fillAmount = currentValue;
     }
 
-    public void UpdateStats(float currentHealth, float maxHealth)
+    public void UpdateStats(float currentValue, float maxValue)
     {
         if (gameObject.activeSelf == false) return;
-        TargetFillAmount = currentHealth / maxHealth;
+        TargetFillAmount = currentValue / maxValue;
         if (fillCoroutine != null)
         {
             StopCoroutine(fillCoroutine);

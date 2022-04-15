@@ -318,6 +318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 168139838}
+  - component: {fileID: 168139839}
   m_Layer: 5
   m_Name: PlayerHealthBar
   m_TagString: Untagged
@@ -347,6 +348,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &168139839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168139837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5d0a1aa742ed344b0a0d16a6bbfcbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imgBackFill: {fileID: 4968142745168940900}
+  imgFrontFill: {fileID: 4968142745717705989}
+  fillSpeed: 0.1
+  fillDelay: 0.5
+  delayFill: 1
+  txtPercent: {fileID: 2067179081}
 --- !u!1001 &281237706
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -354,6 +373,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5334849648001231648, guid: c09767a80c39dca498c95b2e5be1afd8, type: 3}
+      propertyPath: energy
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: -5334849648001231648, guid: c09767a80c39dca498c95b2e5be1afd8, type: 3}
       propertyPath: showHeadHealthBar
       value: 1
@@ -531,6 +554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 553375967}
+  - component: {fileID: 553375968}
   m_Layer: 5
   m_Name: PlayerEnergyBar
   m_TagString: Untagged
@@ -560,6 +584,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -117}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &553375968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553375966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5d0a1aa742ed344b0a0d16a6bbfcbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imgBackFill: {fileID: 2004172563}
+  imgFrontFill: {fileID: 987170330}
+  fillSpeed: 0.1
+  fillDelay: 0.5
+  delayFill: 1
+  txtPercent: {fileID: 85112396}
 --- !u!1001 &645116242
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -567,6 +609,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6145070827934833189, guid: a624a0e3000461e4286965f8a65aedb6, type: 3}
+      propertyPath: energy
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: -6145070827934833189, guid: a624a0e3000461e4286965f8a65aedb6, type: 3}
       propertyPath: showHeadHealthBar
       value: 1
@@ -979,6 +1025,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8887706424098087847, guid: 2ab3ff156c8f1c149a4d4fe513936685, type: 3}
+      propertyPath: energy
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8887706424098087847, guid: 2ab3ff156c8f1c149a4d4fe513936685, type: 3}
       propertyPath: showHeadHealthBar
       value: 1
       objectReference: {fileID: 0}
@@ -1162,7 +1212,15 @@ PrefabInstance:
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: statsBarHUD
       value: 
-      objectReference: {fileID: 4968142745369445320}
+      objectReference: {fileID: 168139839}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: headHealthBar
+      value: 
+      objectReference: {fileID: 2087449158}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: PlayerHealthBarHUD
+      value: 
+      objectReference: {fileID: 168139839}
     - target: {fileID: 6435389010079767248, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1217,6 +1275,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+--- !u!1 &1635425439 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6435389010079767255, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+  m_PrefabInstance: {fileID: 1604924328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1635425440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635425439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022ab83e3dda47ccb65c4c368c435879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerEnergyBar: {fileID: 553375968}
 --- !u!1 &1680208814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,6 +1693,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067179079}
   m_CullTransparentMesh: 1
+--- !u!114 &2087449158 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3900222969089343139, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+  m_PrefabInstance: {fileID: 1604924328}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccedf197538446947916d59c3bbd0a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2111967861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,7 +2031,6 @@ GameObject:
   - component: {fileID: 4968142745369445338}
   - component: {fileID: 4968142745369445337}
   - component: {fileID: 4968142745369445336}
-  - component: {fileID: 4968142745369445320}
   m_Layer: 5
   m_Name: UHD
   m_TagString: Untagged
@@ -1952,24 +2038,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4968142745369445320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4968142745369445319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75796b133c9a4c5e87fb6998acaffb74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imgBackFill: {fileID: 4968142745168940900}
-  imgFrontFill: {fileID: 4968142745717705989}
-  fillSpeed: 0.1
-  fillDelay: 0.5
-  delayFill: 1
-  txtPercent: {fileID: 2067179081}
 --- !u!114 &4968142745369445336
 MonoBehaviour:
   m_ObjectHideFlags: 0
