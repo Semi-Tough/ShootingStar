@@ -12,8 +12,13 @@ using UnityEngine;
 
 public class EnemySpawn : Singleton<EnemySpawn>
 {
+    public int WaveNumber => waveNumber;
+    public float WaveInterval => waveInterval;
+
     [SerializeField] private bool spawnEnemy = true;
+    [SerializeField] private int waveNumber = 1;
     [SerializeField] private GameObject[] enemyPrefabs;
+    [SerializeField] private GameObject waveUI;
     [SerializeField] private float spawnInterval = 1f;
     [SerializeField] private float waveInterval = 1f;
     [SerializeField] private int minEnemyCount = 4;
@@ -24,7 +29,6 @@ public class EnemySpawn : Singleton<EnemySpawn>
     private WaitForSeconds waitForSpawn;
     private WaitForSeconds waitForWave;
     private WaitUntil waitUntilEmpty;
-    private int waveNumber = 1;
     private int enemyCount;
 
     protected override void Awake()
@@ -41,7 +45,9 @@ public class EnemySpawn : Singleton<EnemySpawn>
         while (spawnEnemy)
         {
             yield return waitUntilEmpty;
+            waveUI.SetActive(true);
             yield return waitForWave;
+            waveUI.SetActive(false);
             StartCoroutine(SpawnCoroutine());
         }
     }
