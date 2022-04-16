@@ -11,8 +11,7 @@ using UnityEngine;
 public class PlayerEnergy : Singleton<PlayerEnergy>
 {
     [SerializeField] private StatsBarHUD playerEnergyBar;
-   
-    public const int MaxEnergy = 100;
+    private const int MaxEnergy = 100;
     public const int Percent = 1;
 
     private int currentEnergy;
@@ -20,6 +19,7 @@ public class PlayerEnergy : Singleton<PlayerEnergy>
     private void Start()
     {
         playerEnergyBar.Initialize(currentEnergy, MaxEnergy);
+        EnergyObtain(MaxEnergy);
     }
 
     public void EnergyObtain(int value)

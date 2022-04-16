@@ -12,13 +12,25 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : Controller
 {
-    [SerializeField] private StatsBarHUD PlayerHealthBarHUD;
+    #region Health
+
+    [SerializeField] private StatsBarHUD playerHealthBarHUD;
     [SerializeField] private bool regenerateHealth = true;
     [SerializeField] private float regenerateTime = 1;
     [SerializeField] private float regeneratePercent = 1;
 
+    #endregion
+
+    #region Input
+
     [Header("--------Input--------")]
     [SerializeField] private PlayerInput input;
+
+    private Vector2 _moveInput;
+
+    #endregion
+
+    #region Move
 
     [Header("--------Move--------")]
     [SerializeField] private float moveSpeed = 6f;
@@ -28,6 +40,13 @@ public class PlayerController : Controller
     [SerializeField] private float paddingY = 0.22f;
     [SerializeField] private float accelerationTime = 2f;
     [SerializeField] private float decelerationTime = 2f;
+
+    private Rigidbody2D playerRig;
+    private bool isMove;
+
+    #endregion
+
+    #region Fire
 
     [Header("--------Fire--------")]
     [SerializeField, Range(0, 2)] private int weaponLevel = 1;
@@ -40,16 +59,31 @@ public class PlayerController : Controller
     [SerializeField] private Transform muzzleMiddle;
     [SerializeField] private Transform muzzleBottom;
 
+    #endregion
+
+    #region Dodge
+
+    [Header("--------Dodge--------")]
+    [SerializeField, Range(0, 100)] private int dodgeEnergy = 25;
+
+    [SerializeField] private float maxRoll = 720f;
+    [SerializeField] private float rollSpeed = 360f;
+    [SerializeField] private Vector3 dodgeScale = new Vector3(0.5f, 0.5f, 0.5f);
+    private CapsuleCollider2D playerCol;
+    private float currentRoll;
+    private float dodgeDuration;
+    private bool isDodge;
+
+    #endregion
+
     private Coroutine regenerateCoroutine;
     private WaitForSeconds waitForFire;
     private WaitForSeconds waitForRegenerate;
-    private Rigidbody2D _rigidbody2D;
-    private Vector2 _moveInput;
-    private bool _onMove;
 
     private void Awake()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        playerRig = GetComponent<Rigidbody2D>();
+        playerCol = GetComponent<CapsuleCollider2D>();
     }
 
     protected override void OnEnable()
@@ -59,6 +93,7 @@ public class PlayerController : Controller
         input.StopMove += StopMove;
         input.StartFire += StartFire;
         input.StopFire += StopFire;
+        input.Dodge += Dodge;
     }
 
     private void OnDisable()
@@ -67,21 +102,22 @@ public class PlayerController : Controller
         input.StopMove -= StopMove;
         input.StartFire -= StartFire;
         input.StopFire -= StopFire;
+        input.Dodge -= Dodge;
     }
 
     private void Start()
     {
-        _rigidbody2D.gravityScale = 0;
+        playerRig.gravityScale = 0;
         input.EnableGamePlayInput();
         waitForFire = new WaitForSeconds(fireInterval);
         waitForRegenerate = new WaitForSeconds(regenerateTime);
-        PlayerHealthBarHUD.Initialize(CurrentHealth, maxHealth);
+        playerHealthBarHUD.Initialize(CurrentHealth, maxHealth);
+        dodgeDuration = maxRoll / rollSpeed;
     }
-
 
     private void Update()
     {
-        if (_onMove)
+        if (isMove)
         {
             MoveAndRotationLerp(moveSpeed * _moveInput,
                 Quaternion.AngleAxis(moveRotationAngle * _moveInput.y, Vector3.right), accelerationTime);
@@ -91,23 +127,55 @@ public class PlayerController : Controller
             MoveAndRotationLerp(Vector2.zero, Quaternion.identity, decelerationTime);
         }
 
-        if (_rigidbody2D.velocity.magnitude > 0.1f)
+        if (playerRig.velocity.magnitude > 0.1f)
         {
             transform.position = Viewport.Instance.PlayerMobilePosition(transform.position, paddingX, paddingY);
         }
     }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        playerHealthBarHUD.UpdateStats(CurrentHealth, maxHealth);
+
+        if (gameObject.activeSelf)
+        {
+            if (regenerateHealth)
+            {
+                if (regenerateCoroutine != null)
+                {
+                    StopCoroutine(regenerateCoroutine);
+                }
+
+                regenerateCoroutine = StartCoroutine(HealthRegenerateCoroutine(waitForRegenerate, regeneratePercent));
+            }
+        }
+    }
+
+    protected override void RestoreHealth(float value)
+    {
+        base.RestoreHealth(value);
+        playerHealthBarHUD.UpdateStats(CurrentHealth, maxHealth);
+    }
+
+    protected override void Die()
+    {
+        playerHealthBarHUD.UpdateStats(0, maxHealth);
+        base.Die();
+    }
+
 
     #region Move
 
     private void StartMove(Vector2 moveInput)
     {
         _moveInput = moveInput.normalized;
-        _onMove = true;
+        isMove = true;
     }
 
     private void StopMove()
     {
-        _onMove = false;
+        isMove = false;
     }
 
     private void MoveAndRotationLerp(Vector2 moveVelocity, Quaternion moveRotation, float lerpTime)
@@ -115,7 +183,7 @@ public class PlayerController : Controller
         float timer = 0;
         if (!(timer < lerpTime)) return;
         timer += Time.fixedDeltaTime;
-        _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, moveVelocity, timer);
+        playerRig.velocity = Vector2.Lerp(playerRig.velocity, moveVelocity, timer);
         transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, timer);
     }
 
@@ -175,34 +243,59 @@ public class PlayerController : Controller
 
     #endregion
 
-    public override void TakeDamage(float damage)
-    {
-        base.TakeDamage(damage);
-        PlayerHealthBarHUD.UpdateStats(CurrentHealth, maxHealth);
+    #region Dodge
 
-        if (gameObject.activeSelf)
+    private void Dodge()
+    {
+        if (isDodge) return;
+        if (!PlayerEnergy.Instance.EnergyIsEnough(dodgeEnergy)) return;
+        StartCoroutine(DodgeCoroutine());
+    }
+
+    private IEnumerator DodgeCoroutine()
+    {
+        PlayerEnergy.Instance.EnergyExpend(dodgeEnergy);
+        playerCol.isTrigger = true;
+        isDodge = true;
+        currentRoll = 0f;
+        while (currentRoll < maxRoll)
         {
-            if (regenerateHealth)
-            {
-                if (regenerateCoroutine != null)
-                {
-                    StopCoroutine(regenerateCoroutine);
-                }
+            currentRoll += rollSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.AngleAxis(currentRoll, Vector3.right);
 
-                regenerateCoroutine = StartCoroutine(HealthRegenerateCoroutine(waitForRegenerate, regeneratePercent));
-            }
+
+            #region Method1
+
+            // Vector3 scale = transform.localScale;
+
+            // float rollValue = Time.deltaTime * dodgeDuration;
+            // if (currentRoll < maxRoll / 2)
+            // {
+            //     scale.x = Mathf.Clamp(scale.x - rollValue, dodgeScale.x, 1f);
+            //     scale.y = Mathf.Clamp(scale.y - rollValue, dodgeScale.y, 1f);
+            //     scale.z = Mathf.Clamp(scale.z - rollValue, dodgeScale.z, 1f);
+            // }
+            // else
+            // {
+            //     scale.x = Mathf.Clamp(scale.x + rollValue, dodgeScale.x, 1f);
+            //     scale.y = Mathf.Clamp(scale.y + rollValue, dodgeScale.y, 1f);
+            //     scale.z = Mathf.Clamp(scale.z + rollValue, dodgeScale.z, 1f);
+            // } 
+            // transform.localScale = scale;
+
+            #endregion
+            
+            transform.localScale = Vector3.Lerp(
+                Vector3.Lerp(Vector3.one, dodgeScale, currentRoll / maxRoll),
+                Vector3.Lerp(dodgeScale, Vector3.one, currentRoll / maxRoll),
+                currentRoll / maxRoll);
+            
+            yield return null;
         }
+
+        playerCol.isTrigger = false;
+        isDodge = false;
     }
 
-    protected override void RestoreHealth(float value)
-    {
-        base.RestoreHealth(value);
-        PlayerHealthBarHUD.UpdateStats(CurrentHealth, maxHealth);
-    }
-
-    protected override void Die()
-    {
-        PlayerHealthBarHUD.UpdateStats(0, maxHealth);
-        base.Die();
-    }
+    #endregion
 }
