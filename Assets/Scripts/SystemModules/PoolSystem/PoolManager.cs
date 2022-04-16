@@ -15,22 +15,22 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private Pool[] enemyProjectilePools;
     [SerializeField] private Pool[] hitVFXPools;
     [SerializeField] private Pool[] deathVFXPools;
+    [SerializeField] private Pool[] enemyPools;
+
     private static Dictionary<GameObject, Pool> _dictionary;
 
     private void Awake()
     {
         _dictionary = new Dictionary<GameObject, Pool>();
-    }
-
-    private void Start()
-    {
+        
         Initialized(playerProjectilePools);
         Initialized(enemyProjectilePools);
         Initialized(hitVFXPools);
         Initialized(deathVFXPools);
+        Initialized(enemyPools);
     }
 
-    private void Initialized(Pool[] pools)
+    private static void Initialized(IEnumerable<Pool> pools)
     {
         foreach (Pool pool in pools)
         {
@@ -49,9 +49,9 @@ public class PoolManager : MonoBehaviour
 
 #if UNITY_EDITOR
 
-    private void CheckPoolSize(Pool[] pools)
+    private static void CheckPoolSize(IEnumerable<Pool> pools)
     {
-        foreach (var pool in pools)
+        foreach (Pool pool in pools)
         {
             if (pool.RunTimeSize > pool.Size)
             {
@@ -68,6 +68,7 @@ public class PoolManager : MonoBehaviour
         CheckPoolSize(enemyProjectilePools);
         CheckPoolSize(hitVFXPools);
         CheckPoolSize(deathVFXPools);
+        CheckPoolSize(enemyPools);
     }
 #endif
 
@@ -116,14 +117,12 @@ public class PoolManager : MonoBehaviour
 
     public static GameObject Release(GameObject prefab, Vector3 position)
     {
+        if (_dictionary.ContainsKey(prefab)) return _dictionary[prefab].PreparedObject(position);
+
 #if UNITY_EDITOR
-        if (!_dictionary.ContainsKey(prefab))
-        {
-            Debug.LogError("Pool Manager could not find prefab:" + prefab.name);
-            return null;
-        }
+        Debug.LogError("Pool Manager could not find prefab:" + prefab.name);
+        return null;
 #endif
-        return _dictionary[prefab].PreparedObject(position);
     }
 
     #region XMl注释

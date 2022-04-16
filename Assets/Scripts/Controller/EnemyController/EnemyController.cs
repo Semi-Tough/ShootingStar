@@ -45,22 +45,20 @@ public class EnemyController : Controller
 
     private void Update()
     {
-        if (gameObject.activeSelf)
+        if (!gameObject.activeSelf) return;
+        Vector3 position = transform.position;
+
+        if (Vector3.Distance(position, targetPosition) > Mathf.Epsilon)
         {
-            Vector3 position = transform.position;
+            transform.position =
+                Vector3.MoveTowards(position, targetPosition, moveSpeed * Time.deltaTime);
 
-            if (Vector3.Distance(position, targetPosition) > Mathf.Epsilon)
-            {
-                transform.position =
-                    Vector3.MoveTowards(position, targetPosition, moveSpeed * Time.deltaTime);
-
-                RotationLerp(Quaternion.AngleAxis(moveRotationAngle * (targetPosition - position).normalized.y,
-                    Vector3.right), smoothTime);
-            }
-            else
-            {
-                targetPosition = Viewport.Instance.RandomRightHalfPosition(paddingX, paddingY);
-            }
+            RotationLerp(Quaternion.AngleAxis(moveRotationAngle * (targetPosition - position).normalized.y,
+                Vector3.right), smoothTime);
+        }
+        else
+        {
+            targetPosition = Viewport.Instance.RandomRightHalfPosition(paddingX, paddingY);
         }
     }
 
@@ -89,5 +87,6 @@ public class EnemyController : Controller
     {
         base.Die();
         PlayerEnergy.Instance.EnergyObtain(energy);
+        EnemySpawn.Instance.RemoveFromList(gameObject);
     }
 }
