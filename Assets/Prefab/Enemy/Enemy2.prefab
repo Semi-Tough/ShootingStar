@@ -14623,11 +14623,23 @@ MonoBehaviour:
   moveSpeed: 2
   moveRotationAngle: 30
   smoothTime: 1
+  launchAudioData:
+  - AudioClip: {fileID: 8300000, guid: 406abe6e803b244eca380af5865dc5cb, type: 3}
+    Volume: 0.5
+  - AudioClip: {fileID: 8300000, guid: 56c2ee139e8c844ba9a3a17370e3b763, type: 3}
+    Volume: 0.5
+  - AudioClip: {fileID: 8300000, guid: 35644134c067099459f55ecfa2efd85d, type: 3}
+    Volume: 0.5
   minIntervalFire: 1
   maxIntervalFire: 3.5
   projectiles:
   - {fileID: 8170931702890372077, guid: 55b6151185ad44141b4c454b0ba276ab, type: 3}
   muzzle: {fileID: 535307376}
+  deathAudioData:
+  - AudioClip: {fileID: 8300000, guid: 9314f85ef4c5ea04a87a0323c78fdd2e, type: 3}
+    Volume: 0.5
+  - AudioClip: {fileID: 8300000, guid: 0f2184b0c1d094741b11e8f4077c52e9, type: 3}
+    Volume: 0.5
 --- !u!50 &1439734917
 Rigidbody2D:
   serializedVersion: 4

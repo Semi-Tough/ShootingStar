@@ -21,6 +21,6 @@ public class WaveUI : MonoBehaviour
 
     private void OnEnable()
     {
-        txtWave.text = "-WAVE " + EnemySpawn.Instance.WaveNumber + "-";
+        txtWave.text = "-WAVE " + EnemyManager.Instance.WaveNumber + "-";
     }
 }

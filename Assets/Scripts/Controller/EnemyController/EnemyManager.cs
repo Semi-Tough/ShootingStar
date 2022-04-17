@@ -1,16 +1,16 @@
 ﻿/****************************************************
-    文件：EnemySpawn.cs
+    文件：EnemyManager.cs
     作者：wzq
     邮箱：1693416984@qq.com
     日期：2022/04/16 18:13:05
-    功能：敌人生成器
+    功能：敌人管理器
 *****************************************************/
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawn : Singleton<EnemySpawn>
+public class EnemyManager : Singleton<EnemyManager>
 {
     public int WaveNumber => waveNumber;
     public float WaveInterval => waveInterval;

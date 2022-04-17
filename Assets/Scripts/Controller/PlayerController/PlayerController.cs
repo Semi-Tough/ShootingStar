@@ -52,6 +52,7 @@ public class PlayerController : Controller
     [SerializeField, Range(0, 2)] private int weaponLevel = 1;
 
     [SerializeField] private float fireInterval = 0.2f;
+    [SerializeField] private AudioData launchAudioData;
     [SerializeField] private GameObject projectileTop;
     [SerializeField] private GameObject projectileMiddle;
     [SerializeField] private GameObject projectileBottom;
@@ -69,12 +70,15 @@ public class PlayerController : Controller
     [SerializeField] private float maxRoll = 720f;
     [SerializeField] private float rollSpeed = 360f;
     [SerializeField] private Vector3 dodgeScale = new Vector3(0.5f, 0.5f, 0.5f);
+    [SerializeField] private AudioData dodgeAudioData;
+
     private CapsuleCollider2D playerCol;
     private float currentRoll;
-    private float dodgeDuration;
     private bool isDodge;
 
     #endregion
+
+    [SerializeField] private AudioData deathAudioData;
 
     private Coroutine regenerateCoroutine;
     private WaitForSeconds waitForFire;
@@ -112,7 +116,6 @@ public class PlayerController : Controller
         waitForFire = new WaitForSeconds(fireInterval);
         waitForRegenerate = new WaitForSeconds(regenerateTime);
         playerHealthBarHUD.Initialize(CurrentHealth, maxHealth);
-        dodgeDuration = maxRoll / rollSpeed;
     }
 
     private void Update()
@@ -160,6 +163,7 @@ public class PlayerController : Controller
 
     protected override void Die()
     {
+        AudioManager.Instance.PlayRandomPitch(deathAudioData);
         playerHealthBarHUD.UpdateStats(0, maxHealth);
         base.Die();
     }
@@ -201,7 +205,7 @@ public class PlayerController : Controller
         StopCoroutine(nameof(FireCoroutine));
     }
 
-    IEnumerator FireCoroutine()
+    private IEnumerator FireCoroutine()
     {
         while (true)
         {
@@ -236,6 +240,7 @@ public class PlayerController : Controller
                     break;
             }
 
+            AudioManager.Instance.PlayRandomPitch(launchAudioData);
             yield return waitForFire;
         }
         // ReSharper disable once IteratorNeverReturns
@@ -258,6 +263,7 @@ public class PlayerController : Controller
         playerCol.isTrigger = true;
         isDodge = true;
         currentRoll = 0f;
+        AudioManager.Instance.PlayRandomPitch(dodgeAudioData);
         while (currentRoll < maxRoll)
         {
             currentRoll += rollSpeed * Time.deltaTime;
@@ -284,12 +290,12 @@ public class PlayerController : Controller
             // transform.localScale = scale;
 
             #endregion
-            
+
             transform.localScale = Vector3.Lerp(
                 Vector3.Lerp(Vector3.one, dodgeScale, currentRoll / maxRoll),
                 Vector3.Lerp(dodgeScale, Vector3.one, currentRoll / maxRoll),
                 currentRoll / maxRoll);
-            
+
             yield return null;
         }
 

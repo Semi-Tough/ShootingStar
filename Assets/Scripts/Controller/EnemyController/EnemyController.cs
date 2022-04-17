@@ -15,18 +15,22 @@ public class EnemyController : Controller
 
     [Header("--------Move--------")]
     [SerializeField] private float paddingX;
+
     [SerializeField] private float paddingY;
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float moveRotationAngle = 30f;
     [SerializeField] private float smoothTime = 1f;
 
     [Header("--------Fire--------")]
-    [SerializeField] private float minIntervalFire;
+    [SerializeField] private AudioData[] launchAudioData;
 
+    [SerializeField] private float minIntervalFire;
     [SerializeField] private float maxIntervalFire;
     [SerializeField] private GameObject[] projectiles;
     [SerializeField] private Transform muzzle;
 
+
+    [SerializeField] private AudioData[] deathAudioData;
     private Vector3 targetPosition;
 
 
@@ -79,14 +83,17 @@ public class EnemyController : Controller
             {
                 PoolManager.Release(projectile, muzzle.position);
             }
+
+            AudioManager.Instance.PlayRandomPitch(launchAudioData);
         }
         // ReSharper disable once IteratorNeverReturns
     }
 
     protected override void Die()
     {
+        AudioManager.Instance.PlayRandomPitch(deathAudioData);
         base.Die();
         PlayerEnergy.Instance.EnergyObtain(energy);
-        EnemySpawn.Instance.RemoveFromList(gameObject);
+        EnemyManager.Instance.RemoveFromList(gameObject);
     }
 }

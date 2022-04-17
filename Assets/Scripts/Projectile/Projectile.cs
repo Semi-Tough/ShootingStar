@@ -12,9 +12,12 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private bool playerProjectile;
     [SerializeField] private GameObject hitVFX;
+    [SerializeField] private AudioData[] hitAudioData;
+
     [SerializeField] private float damage = 1f;
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] protected Vector3 moveDirection;
+
     private Vector3 lastPosition;
     private Vector3 nextPosition;
 
@@ -48,6 +51,8 @@ public class Projectile : MonoBehaviour
             PoolManager.Release(hitVFX, hit2D.point, Quaternion.LookRotation(hit2D.normal));
             gameObject.SetActive(false);
         }
+
+        AudioManager.Instance.PlayRandomPitch(hitAudioData);
     }
 
     private void OnDrawGizmos()
