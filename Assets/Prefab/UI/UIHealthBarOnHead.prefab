@@ -174,8 +174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imgBackFill: {fileID: 3900222969703510005}
   imgFrontFill: {fileID: 3900222969153432980}
-  fillSpeed: 0.1
-  fillDelay: 0.5
+  fillSpeed: 1
+  fillDelay: 0.1
   delayFill: 1
 --- !u!1 &3900222969703510003
 GameObject:

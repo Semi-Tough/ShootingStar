@@ -362,8 +362,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imgBackFill: {fileID: 4968142745168940900}
   imgFrontFill: {fileID: 4968142745717705989}
-  fillSpeed: 0.1
-  fillDelay: 0.5
+  fillSpeed: 1
+  fillDelay: 0.1
   delayFill: 1
   txtPercent: {fileID: 2067179081}
 --- !u!1 &333010586
@@ -781,8 +781,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imgBackFill: {fileID: 2004172563}
   imgFrontFill: {fileID: 987170330}
-  fillSpeed: 0.1
-  fillDelay: 0.5
+  fillSpeed: 1
+  fillDelay: 0.1
   delayFill: 1
   txtPercent: {fileID: 85112396}
 --- !u!1 &960267104
@@ -1629,33 +1629,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
-      propertyPath: shootClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 53622e00a83edfb49a70bcbb9a4eebec, type: 3}
-    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
-      propertyPath: shootVolume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: playerHealthBarHUD
       value: 
       objectReference: {fileID: 168139839}
-    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
-      propertyPath: deathAudioData.Volume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
-      propertyPath: dodgeAudioData.Volume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
-      propertyPath: deathAudioData.AudioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
-    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
-      propertyPath: dodgeAudioData.AudioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 9fc03a91b5216b74394a6166059d68f2, type: 3}
     - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: playerEnergyBar
       value: 

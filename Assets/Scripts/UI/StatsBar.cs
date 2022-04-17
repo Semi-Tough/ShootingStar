@@ -69,10 +69,11 @@ public class StatsBar : MonoBehaviour
         if (delayFill) yield return waitForSeconds;
 
         float progress = 0;
+        float preFillAmount = currentFillAmount;
         while (progress < 1)
         {
             progress += Time.deltaTime * fillSpeed;
-            currentFillAmount = Mathf.Lerp(currentFillAmount, TargetFillAmount, progress);
+            currentFillAmount = Mathf.Lerp(preFillAmount, TargetFillAmount, progress);
             image.fillAmount = currentFillAmount;
             yield return null;
         }

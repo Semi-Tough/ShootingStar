@@ -81,8 +81,10 @@ public class PlayerController : Controller
     [SerializeField] private AudioData deathAudioData;
 
     private Coroutine regenerateCoroutine;
+    private Coroutine moveAndRotationLerpCoroutine;
     private WaitForSeconds waitForFire;
     private WaitForSeconds waitForRegenerate;
+    private WaitForFixedUpdate waitForFixedUpdate;
 
     private void Awake()
     {
@@ -115,6 +117,7 @@ public class PlayerController : Controller
         input.EnableGamePlayInput();
         waitForFire = new WaitForSeconds(fireInterval);
         waitForRegenerate = new WaitForSeconds(regenerateTime);
+        waitForFixedUpdate = new WaitForFixedUpdate();
         playerHealthBarHUD.Initialize(CurrentHealth, maxHealth);
     }
 
@@ -122,12 +125,15 @@ public class PlayerController : Controller
     {
         if (isMove)
         {
-            MoveAndRotationLerp(moveSpeed * _moveInput,
-                Quaternion.AngleAxis(moveRotationAngle * _moveInput.y, Vector3.right), accelerationTime);
+            if (moveAndRotationLerpCoroutine != null) StopCoroutine(moveAndRotationLerpCoroutine);
+            moveAndRotationLerpCoroutine = StartCoroutine(MoveAndRotationLerp(moveSpeed * _moveInput,
+                Quaternion.AngleAxis(moveRotationAngle * _moveInput.y, Vector3.right), accelerationTime));
         }
         else
         {
-            MoveAndRotationLerp(Vector2.zero, Quaternion.identity, decelerationTime);
+            if (moveAndRotationLerpCoroutine != null) StopCoroutine(moveAndRotationLerpCoroutine);
+            moveAndRotationLerpCoroutine =
+                StartCoroutine(MoveAndRotationLerp(Vector2.zero, Quaternion.identity, decelerationTime));
         }
 
         if (playerRig.velocity.magnitude > 0.1f)
@@ -182,13 +188,19 @@ public class PlayerController : Controller
         isMove = false;
     }
 
-    private void MoveAndRotationLerp(Vector2 moveVelocity, Quaternion moveRotation, float lerpTime)
+    private IEnumerator MoveAndRotationLerp(Vector2 moveVelocity, Quaternion moveRotation, float lerpTime)
     {
         float timer = 0;
-        if (!(timer < lerpTime)) return;
-        timer += Time.fixedDeltaTime;
-        playerRig.velocity = Vector2.Lerp(playerRig.velocity, moveVelocity, timer);
-        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, timer);
+        Vector3 preVelocity = playerRig.velocity;
+        Quaternion preRotation = transform.rotation;
+
+        while (timer < lerpTime)
+        {
+            timer += Time.fixedDeltaTime;
+            playerRig.velocity = Vector2.Lerp(preVelocity, moveVelocity, timer);
+            transform.rotation = Quaternion.Lerp(preRotation, moveRotation, timer);
+            yield return waitForFixedUpdate;
+        }
     }
 
     #endregion
@@ -209,6 +221,7 @@ public class PlayerController : Controller
     {
         while (true)
         {
+            if (isDodge) yield return new WaitUntil(() => isDodge == false);
             // switch (weaponLevel)
             // {
             //     case 0:
