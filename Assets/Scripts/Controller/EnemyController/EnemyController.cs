@@ -12,6 +12,7 @@ using UnityEngine;
 public class EnemyController : Controller
 {
     [SerializeField] private int energy = 3;
+    [SerializeField] private int score = 5;
 
     [Header("--------Move--------")]
     [SerializeField] private float paddingX;
@@ -52,7 +53,7 @@ public class EnemyController : Controller
         if (!gameObject.activeSelf) return;
         Vector3 position = transform.position;
 
-        if (Vector3.Distance(position, targetPosition) > Mathf.Epsilon)
+        if (Vector3.Distance(position, targetPosition) > moveSpeed * Time.deltaTime)
         {
             transform.position =
                 Vector3.MoveTowards(position, targetPosition, moveSpeed * Time.deltaTime);
@@ -95,5 +96,6 @@ public class EnemyController : Controller
         base.Die();
         PlayerEnergy.Instance.EnergyObtain(energy);
         EnemyManager.Instance.RemoveFromList(gameObject);
+        ScoreManager.Instance.AddScore(score);
     }
 }

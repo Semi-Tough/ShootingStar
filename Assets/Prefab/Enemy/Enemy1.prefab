@@ -84,6 +84,7 @@ MonoBehaviour:
   headHealthBar: {fileID: 3900222968055198197}
   showHeadHealthBar: 1
   energy: 5
+  score: 100
   paddingX: 1
   paddingY: 0.5
   moveSpeed: 2
