@@ -6,6 +6,7 @@
     功能：玩家子弹类
 *****************************************************/
 
+using System;
 using UnityEngine;
 
 public class PlayerProjectile : Projectile
@@ -20,7 +21,6 @@ public class PlayerProjectile : Projectile
             transform.GetChild(0).rotation = Quaternion.FromToRotation(Vector3.right, moveDirection);
         }
     }
-
     private void OnDisable()
     {
         trailRenderer.Clear();

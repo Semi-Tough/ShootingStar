@@ -18,8 +18,16 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] protected Vector3 moveDirection;
 
+    protected GameObject Target;
     private Vector3 lastPosition;
     private Vector3 nextPosition;
+
+    protected virtual void OnEnable()
+    {
+        moveDirection = new Vector3(-1, 0, 0);
+        transform.rotation=Quaternion.identity;
+        Target = null;
+    }
 
     protected virtual void Update()
     {
@@ -32,6 +40,7 @@ public class Projectile : MonoBehaviour
 
         RaycastHit2D hit2D = Physics2D.BoxCast(nextPosition, new Vector2(0.2f, 0.1f), 0,
             (nextPosition - lastPosition).normalized, (nextPosition - lastPosition).magnitude);
+
 
         if (!hit2D) return;
         if (playerProjectile)
@@ -59,5 +68,10 @@ public class Projectile : MonoBehaviour
     {
         Gizmos.color = Color.black;
         Gizmos.DrawCube(nextPosition, new Vector2(0.2f, 0.1f));
+    }
+
+    protected void SetTarget(GameObject target)
+    {
+        Target = target;
     }
 }

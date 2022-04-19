@@ -13,7 +13,8 @@ using UnityEngine;
 public class EnemyManager : Singleton<EnemyManager>
 {
     public int WaveNumber => waveNumber;
-    public float WaveInterval => waveInterval;
+
+    public GameObject RandomEnemy => enemyList.Count > 0 ? enemyList[Random.Range(0, enemyList.Count)] : null;
 
     [SerializeField] private bool spawnEnemy = true;
     [SerializeField] private int waveNumber = 1;

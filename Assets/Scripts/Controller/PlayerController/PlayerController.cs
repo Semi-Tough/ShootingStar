@@ -59,6 +59,7 @@ public class PlayerController : Controller
     [SerializeField] private GameObject projectileTop;
     [SerializeField] private GameObject projectileMiddle;
     [SerializeField] private GameObject projectileBottom;
+    [SerializeField] private GameObject projectileOverdrive;
     [SerializeField] private Transform muzzleTop;
     [SerializeField] private Transform muzzleMiddle;
     [SerializeField] private Transform muzzleBottom;
@@ -122,8 +123,7 @@ public class PlayerController : Controller
         PlayerEnergy.StartOverdriveAction += OverDriveOn;
         PlayerEnergy.StopOverdriveAction += OverDriveOff;
     }
-
-
+    
     private void Start()
     {
         playerRig.gravityScale = 0;
@@ -253,16 +253,16 @@ public class PlayerController : Controller
             switch (weaponLevel)
             {
                 case 0:
-                    PoolManager.Release(projectileMiddle, muzzleMiddle.position);
+                    PoolManager.Release(isOverdrive ? projectileOverdrive : projectileMiddle, muzzleMiddle.position);
                     break;
                 case 1:
-                    PoolManager.Release(projectileMiddle, muzzleTop.position);
-                    PoolManager.Release(projectileMiddle, muzzleBottom.position);
+                    PoolManager.Release(isOverdrive ? projectileOverdrive : projectileMiddle, muzzleTop.position);
+                    PoolManager.Release(isOverdrive ? projectileOverdrive : projectileMiddle, muzzleBottom.position);
                     break;
                 case 2:
-                    PoolManager.Release(projectileTop, muzzleTop.position);
-                    PoolManager.Release(projectileMiddle, muzzleMiddle.position);
-                    PoolManager.Release(projectileBottom, muzzleBottom.position);
+                    PoolManager.Release(isOverdrive ? projectileOverdrive : projectileTop, muzzleTop.position);
+                    PoolManager.Release(isOverdrive ? projectileOverdrive : projectileMiddle, muzzleMiddle.position);
+                    PoolManager.Release(isOverdrive ? projectileOverdrive : projectileBottom, muzzleBottom.position);
                     break;
             }
 
