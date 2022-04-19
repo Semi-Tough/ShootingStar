@@ -499,6 +499,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 380538361}
   m_CullTransparentMesh: 1
+--- !u!1 &416218402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1486722878799454428, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+  m_PrefabInstance: {fileID: 1604924328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &457619930
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,8 +904,13 @@ MonoBehaviour:
   imgFrontFill: {fileID: 987170330}
   fillSpeed: 1
   fillDelay: 0.1
-  delayFill: 1
+  delayFill: 0
   txtPercent: {fileID: 85112396}
+--- !u!1 &667750939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6435389009007492521, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+  m_PrefabInstance: {fileID: 1604924328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &835699323
 GameObject:
   m_ObjectHideFlags: 0
@@ -1702,6 +1712,11 @@ Transform:
   m_Father: {fileID: 1300109769}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1530133365 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 503256365265426961, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+  m_PrefabInstance: {fileID: 1604924328}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1536841844
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,13 +1896,77 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: weaponLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: playerHealthBarHUD
       value: 
       objectReference: {fileID: 168139839}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: overdriveFireFactor
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: overdriveSpeedFactor
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: triggerVFX
+      value: 
+      objectReference: {fileID: 416218402}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: stopSFX.Volume
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: stopSfx.Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: engineVFXNormal
+      value: 
+      objectReference: {fileID: 667750939}
     - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: playerEnergyBar
       value: 
       objectReference: {fileID: 553375968}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: startSFX.Volume
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: startSfx.Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: overdriveInterval
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: stopSFX.AudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: af7991e526977a144b102a04e5366c12, type: 3}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: stopSfx.AudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: af7991e526977a144b102a04e5366c12, type: 3}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: engineVFXOverdrive
+      value: 
+      objectReference: {fileID: 1530133365}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: startSFX.AudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 62c5fc7ce12def64a84582fcf54974a1, type: 3}
+    - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: startSfx.AudioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 62c5fc7ce12def64a84582fcf54974a1, type: 3}
+    - target: {fileID: 1489440098535231660, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6435389010079767248, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2523,11 +2602,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerProjectilePools:
   - prefab: {fileID: 1395877206129221009, guid: 00453963df14c1e4086bc21120116f9f, type: 3}
-    size: 8
+    size: 10
   - prefab: {fileID: 1395877206129221009, guid: 0596cbf5e85ee8b42abdc3d7511408b6, type: 3}
-    size: 16
+    size: 20
   - prefab: {fileID: 1395877206129221009, guid: b2d75e38575d6de4e9908ee9acc7375b, type: 3}
-    size: 8
+    size: 10
   enemyProjectilePools:
   - prefab: {fileID: 8170931702890372077, guid: d35ac588666b92e4599070d1d5c0265d, type: 3}
     size: 10
@@ -2541,7 +2620,7 @@ MonoBehaviour:
     size: 10
   hitVFXPools:
   - prefab: {fileID: 5060298685065931927, guid: 6775c68a79b34db4fa2fd4db2a4cdf74, type: 3}
-    size: 11
+    size: 13
   - prefab: {fileID: 4801493125213720806, guid: 94d3dff6247d98e4cb4d8d6f0be5e291, type: 3}
     size: 5
   deathVFXPools:

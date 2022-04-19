@@ -13,11 +13,12 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(menuName = "Player Input")]
 public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
 {
-    public event UnityAction<Vector2> StartMove = delegate { };
-    public event UnityAction StopMove = delegate { };
-    public event UnityAction StartFire = delegate { };
-    public event UnityAction StopFire = delegate { };
-    public event UnityAction Dodge = delegate { };
+    public event UnityAction<Vector2> StartMoveAction = delegate { };
+    public event UnityAction StopMoveAction = delegate { };
+    public event UnityAction StartFireAction = delegate { };
+    public event UnityAction StopFireAction = delegate { };
+    public event UnityAction DodgeAction = delegate { };
+    public event UnityAction OverdriveAction = delegate { };
 
     private InputActions _inputActions;
 
@@ -49,12 +50,12 @@ public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
     {
         if (context.performed)
         {
-            StartMove.Invoke(context.ReadValue<Vector2>());
+            StartMoveAction.Invoke(context.ReadValue<Vector2>());
         }
 
         if (context.canceled)
         {
-            StopMove.Invoke();
+            StopMoveAction.Invoke();
         }
     }
 
@@ -62,12 +63,12 @@ public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
     {
         if (context.performed)
         {
-            StartFire.Invoke();
+            StartFireAction.Invoke();
         }
 
         if (context.canceled)
         {
-            StopFire.Invoke();
+            StopFireAction.Invoke();
         }
     }
 
@@ -75,7 +76,17 @@ public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
     {
         if (context.performed)
         {
-            Dodge.Invoke();
+            DodgeAction.Invoke();
         }
     }
+
+    public void OnOverdrive(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            OverdriveAction.Invoke();
+        }
+    }
+
+  
 }

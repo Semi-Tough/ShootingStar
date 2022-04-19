@@ -6,21 +6,49 @@
     功能：玩家能量系统
 *****************************************************/
 
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerEnergy : Singleton<PlayerEnergy>
 {
     [SerializeField] private StatsBarHUD playerEnergyBar;
-    private const int MaxEnergy = 100;
-    public const int Percent = 1;
+    [SerializeField] private GameObject triggerVFX;
+    [SerializeField] private GameObject engineVFXNormal;
+    [SerializeField] private GameObject engineVFXOverdrive;
 
+    [SerializeField] private AudioData startSfx;
+    [SerializeField] private AudioData stopSfx;
+
+    [SerializeField] private float overdriveInterval = 0.1f;
+
+    public static UnityAction StartOverdriveAction = delegate { };
+    public static UnityAction StopOverdriveAction = delegate { };
+
+    private WaitForSeconds waitForOverdrive;
+    public const int MaxEnergy = 100;
+    public const int Percent = 1;
     private int currentEnergy;
+
+    private void OnEnable()
+    {
+        StartOverdriveAction += PlayerOverdriveOn;
+        StopOverdriveAction += PlayerOverdriveOff;
+    }
 
     private void Start()
     {
+        waitForOverdrive = new WaitForSeconds(overdriveInterval);
         playerEnergyBar.Initialize(currentEnergy, MaxEnergy);
         EnergyObtain(MaxEnergy);
     }
+
+    private void OnDisable()
+    {
+        StartOverdriveAction -= PlayerOverdriveOn;
+        StopOverdriveAction -= PlayerOverdriveOff;
+    }
+
 
     public void EnergyObtain(int value)
     {
@@ -41,11 +69,46 @@ public class PlayerEnergy : Singleton<PlayerEnergy>
             currentEnergy = 0;
         }
 
+        if (currentEnergy <= 0)
+        {
+            StopOverdriveAction.Invoke();
+        }
+
         playerEnergyBar.UpdateStats(currentEnergy, MaxEnergy);
     }
 
     public bool EnergyIsEnough(int value)
     {
         return currentEnergy >= value;
+    }
+
+
+    private void PlayerOverdriveOn()
+    {
+        triggerVFX.SetActive(true);
+        engineVFXNormal.SetActive(false);
+        engineVFXOverdrive.SetActive(true);
+        AudioManager.Instance.PlayRandomPitch(startSfx);
+
+        StartCoroutine(nameof(OverdriveCoroutine));
+    }
+
+    private void PlayerOverdriveOff()
+    {
+        triggerVFX.SetActive(false);
+        engineVFXNormal.SetActive(true);
+        engineVFXOverdrive.SetActive(false);
+        AudioManager.Instance.PlayRandomPitch(stopSfx);
+
+        StopCoroutine(nameof(OverdriveCoroutine));
+    }
+
+    private IEnumerator OverdriveCoroutine()
+    {
+        while (gameObject.activeSelf && currentEnergy > 0)
+        {
+            yield return waitForOverdrive;
+            EnergyExpend(Percent);
+        }
     }
 }

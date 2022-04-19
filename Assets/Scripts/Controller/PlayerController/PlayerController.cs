@@ -21,18 +21,20 @@ public class PlayerController : Controller
 
     #endregion
 
+    [Header("--------Input--------")]
+
     #region Input
 
-    [Header("--------Input--------")]
     [SerializeField] private PlayerInput input;
 
     private Vector2 _moveInput;
 
     #endregion
 
+    [Header("--------Move--------")]
+
     #region Move
 
-    [Header("--------Move--------")]
     [SerializeField] private float moveSpeed = 6f;
 
     [SerializeField] private float moveRotationAngle = 30f;
@@ -46,9 +48,10 @@ public class PlayerController : Controller
 
     #endregion
 
+    [Header("--------Fire--------")]
+
     #region Fire
 
-    [Header("--------Fire--------")]
     [SerializeField, Range(0, 2)] private int weaponLevel = 1;
 
     [SerializeField] private float fireInterval = 0.2f;
@@ -62,9 +65,10 @@ public class PlayerController : Controller
 
     #endregion
 
+    [Header("--------Dodge--------")]
+
     #region Dodge
 
-    [Header("--------Dodge--------")]
     [SerializeField, Range(0, 100)] private int dodgeEnergy = 25;
 
     [SerializeField] private float maxRoll = 720f;
@@ -78,8 +82,21 @@ public class PlayerController : Controller
 
     #endregion
 
-    [SerializeField] private AudioData deathAudioData;
+    [Header("--------Overdrive--------")]
 
+    #region Overdrive
+
+    [SerializeField] private int overdriveDodgeFactor = 2;
+
+    [SerializeField] private float overdriveSpeedFactor = 1.2f;
+    [SerializeField] private float overdriveFireFactor = 1.2f;
+    private WaitForSeconds waitForOverdriveFire;
+
+    private bool isOverdrive;
+
+    #endregion
+
+    [SerializeField] private AudioData deathAudioData;
     private Coroutine regenerateCoroutine;
     private Coroutine moveAndRotationLerpCoroutine;
     private WaitForSeconds waitForFire;
@@ -95,21 +112,17 @@ public class PlayerController : Controller
     protected override void OnEnable()
     {
         base.OnEnable();
-        input.StartMove += StartMove;
-        input.StopMove += StopMove;
-        input.StartFire += StartFire;
-        input.StopFire += StopFire;
-        input.Dodge += Dodge;
+        input.StartMoveAction += StartMoveAction;
+        input.StopMoveAction += StopMoveAction;
+        input.StartFireAction += StartFireAction;
+        input.StopFireAction += StopFireAction;
+        input.DodgeAction += DodgeAction;
+        input.OverdriveAction += OverdriveAction;
+
+        PlayerEnergy.StartOverdriveAction += OverDriveOn;
+        PlayerEnergy.StopOverdriveAction += OverDriveOff;
     }
 
-    private void OnDisable()
-    {
-        input.StartMove -= StartMove;
-        input.StopMove -= StopMove;
-        input.StartFire -= StartFire;
-        input.StopFire -= StopFire;
-        input.Dodge -= Dodge;
-    }
 
     private void Start()
     {
@@ -118,6 +131,7 @@ public class PlayerController : Controller
         waitForFire = new WaitForSeconds(fireInterval);
         waitForRegenerate = new WaitForSeconds(regenerateTime);
         waitForFixedUpdate = new WaitForFixedUpdate();
+        waitForOverdriveFire = new WaitForSeconds(fireInterval / overdriveFireFactor);
         playerHealthBarHUD.Initialize(CurrentHealth, maxHealth);
     }
 
@@ -140,6 +154,19 @@ public class PlayerController : Controller
         {
             transform.position = Viewport.Instance.PlayerMobilePosition(transform.position, paddingX, paddingY);
         }
+    }
+
+    private void OnDisable()
+    {
+        input.StartMoveAction -= StartMoveAction;
+        input.StopMoveAction -= StopMoveAction;
+        input.StartFireAction -= StartFireAction;
+        input.StopFireAction -= StopFireAction;
+        input.DodgeAction -= DodgeAction;
+        input.OverdriveAction -= OverdriveAction;
+
+        PlayerEnergy.StartOverdriveAction -= OverDriveOn;
+        PlayerEnergy.StopOverdriveAction -= OverDriveOff;
     }
 
     public override void TakeDamage(float damage)
@@ -177,13 +204,13 @@ public class PlayerController : Controller
 
     #region Move
 
-    private void StartMove(Vector2 moveInput)
+    private void StartMoveAction(Vector2 moveInput)
     {
         _moveInput = moveInput.normalized;
         isMove = true;
     }
 
-    private void StopMove()
+    private void StopMoveAction()
     {
         isMove = false;
     }
@@ -207,12 +234,12 @@ public class PlayerController : Controller
 
     #region Fire
 
-    private void StartFire()
+    private void StartFireAction()
     {
         StartCoroutine(nameof(FireCoroutine));
     }
 
-    private void StopFire()
+    private void StopFireAction()
     {
         StopCoroutine(nameof(FireCoroutine));
     }
@@ -222,21 +249,7 @@ public class PlayerController : Controller
         while (true)
         {
             if (isDodge) yield return new WaitUntil(() => isDodge == false);
-            // switch (weaponLevel)
-            // {
-            //     case 0:
-            //         Instantiate(projectileMiddle, muzzleMiddle.position, Quaternion.identity);
-            //         break;
-            //     case 1:
-            //         Instantiate(projectileMiddle, muzzleTop.position, Quaternion.identity);
-            //         Instantiate(projectileMiddle, muzzleBottom.position, Quaternion.identity);
-            //         break;
-            //     case 2:
-            //         Instantiate(projectileTop, muzzleTop.position, Quaternion.identity);
-            //         Instantiate(projectileMiddle, muzzleMiddle.position, Quaternion.identity);
-            //         Instantiate(projectileBottom, muzzleBottom.position, Quaternion.identity);
-            //         break;
-            // } 
+
             switch (weaponLevel)
             {
                 case 0:
@@ -253,8 +266,9 @@ public class PlayerController : Controller
                     break;
             }
 
+
             AudioManager.Instance.PlayRandomPitch(launchAudioData);
-            yield return waitForFire;
+            yield return isOverdrive ? waitForOverdriveFire : waitForFire;
         }
         // ReSharper disable once IteratorNeverReturns
     }
@@ -263,7 +277,7 @@ public class PlayerController : Controller
 
     #region Dodge
 
-    private void Dodge()
+    private void DodgeAction()
     {
         if (isDodge) return;
         if (!PlayerEnergy.Instance.EnergyIsEnough(dodgeEnergy)) return;
@@ -282,28 +296,6 @@ public class PlayerController : Controller
             currentRoll += rollSpeed * Time.deltaTime;
             transform.rotation = Quaternion.AngleAxis(currentRoll, Vector3.right);
 
-
-            #region Method1
-
-            // Vector3 scale = transform.localScale;
-
-            // float rollValue = Time.deltaTime * dodgeDuration;
-            // if (currentRoll < maxRoll / 2)
-            // {
-            //     scale.x = Mathf.Clamp(scale.x - rollValue, dodgeScale.x, 1f);
-            //     scale.y = Mathf.Clamp(scale.y - rollValue, dodgeScale.y, 1f);
-            //     scale.z = Mathf.Clamp(scale.z - rollValue, dodgeScale.z, 1f);
-            // }
-            // else
-            // {
-            //     scale.x = Mathf.Clamp(scale.x + rollValue, dodgeScale.x, 1f);
-            //     scale.y = Mathf.Clamp(scale.y + rollValue, dodgeScale.y, 1f);
-            //     scale.z = Mathf.Clamp(scale.z + rollValue, dodgeScale.z, 1f);
-            // } 
-            // transform.localScale = scale;
-
-            #endregion
-
             transform.localScale = Vector3.Lerp(
                 Vector3.Lerp(Vector3.one, dodgeScale, currentRoll / maxRoll),
                 Vector3.Lerp(dodgeScale, Vector3.one, currentRoll / maxRoll),
@@ -314,6 +306,30 @@ public class PlayerController : Controller
 
         playerCol.isTrigger = false;
         isDodge = false;
+    }
+
+    #endregion
+
+    #region Overdrive
+
+    private void OverdriveAction()
+    {
+        if (!PlayerEnergy.Instance.EnergyIsEnough(PlayerEnergy.MaxEnergy)) return;
+        PlayerEnergy.StartOverdriveAction.Invoke();
+    }
+
+    private void OverDriveOn()
+    {
+        isOverdrive = true;
+        dodgeEnergy *= overdriveDodgeFactor;
+        moveSpeed *= overdriveSpeedFactor;
+    }
+
+    private void OverDriveOff()
+    {
+        isOverdrive = false;
+        dodgeEnergy /= overdriveDodgeFactor;
+        moveSpeed /= overdriveSpeedFactor;
     }
 
     #endregion

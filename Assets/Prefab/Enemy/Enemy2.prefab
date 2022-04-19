@@ -14616,7 +14616,7 @@ MonoBehaviour:
   deathVFX: {fileID: 2342042931496088306, guid: 97b415311529fa145aacd3eedaac728e, type: 3}
   maxHealth: 5
   headHealthBar: {fileID: 3900222968128247835}
-  showHeadHealthBar: 1
+  showHeadHealthBar: 0
   energy: 5
   score: 100
   paddingX: 1
