@@ -13,8 +13,9 @@ public class PlayerProjectile : Projectile
 {
     private TrailRenderer trailRenderer;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
         if (moveDirection != Vector3.right)
         {

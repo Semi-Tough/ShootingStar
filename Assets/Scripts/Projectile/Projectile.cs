@@ -21,11 +21,19 @@ public class Projectile : MonoBehaviour
     protected GameObject Target;
     private Vector3 lastPosition;
     private Vector3 nextPosition;
+    private Vector3 startDirection;
+
+    protected virtual void Awake()
+    {
+        startDirection = moveDirection;
+ 
+    }
 
     protected virtual void OnEnable()
     {
-        moveDirection = new Vector3(-1, 0, 0);
-        transform.rotation=Quaternion.identity;
+        // moveDirection = startDirection;
+        // ReSharper disable once Unity.InefficientPropertyAccess
+        transform.rotation = Quaternion.identity;
         Target = null;
     }
 

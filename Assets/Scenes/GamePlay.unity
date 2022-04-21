@@ -2930,6 +2930,10 @@ PrefabInstance:
       propertyPath: playerHealthBarHUD
       value: 
       objectReference: {fileID: 168139839}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: overdriveDodgeFactor
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: triggerVFX
       value: 
