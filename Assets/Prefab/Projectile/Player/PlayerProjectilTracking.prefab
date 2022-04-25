@@ -4890,8 +4890,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e6381df52b4b1a98c454cb11939aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minBallisticAngle: -60
-  maxBallisticAngle: 60
+  minBallisticAngle: -45
+  maxBallisticAngle: 45
 --- !u!1 &1395877206336355526
 GameObject:
   m_ObjectHideFlags: 0
@@ -4965,7 +4965,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.25
+  m_Time: 0.15
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

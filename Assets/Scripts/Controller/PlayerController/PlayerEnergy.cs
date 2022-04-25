@@ -25,10 +25,11 @@ public class PlayerEnergy : Singleton<PlayerEnergy>
     public static UnityAction StartOverdriveAction = delegate { };
     public static UnityAction StopOverdriveAction = delegate { };
 
+    private PlayerController playerController;
     private WaitForSeconds waitForOverdrive;
     public const int MaxEnergy = 100;
     public const int Percent = 1;
-    private int currentEnergy;
+    private float currentEnergy;
 
     private void OnEnable()
     {
@@ -38,6 +39,7 @@ public class PlayerEnergy : Singleton<PlayerEnergy>
 
     private void Start()
     {
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
         waitForOverdrive = new WaitForSeconds(overdriveInterval);
         playerEnergyBar.Initialize(currentEnergy, MaxEnergy);
         EnergyObtain(MaxEnergy);
@@ -48,7 +50,6 @@ public class PlayerEnergy : Singleton<PlayerEnergy>
         StartOverdriveAction -= PlayerOverdriveOn;
         StopOverdriveAction -= PlayerOverdriveOff;
     }
-
 
     public void EnergyObtain(int value)
     {
@@ -61,27 +62,25 @@ public class PlayerEnergy : Singleton<PlayerEnergy>
         playerEnergyBar.UpdateStats(currentEnergy, MaxEnergy);
     }
 
-    public void EnergyExpend(int value)
+    public void EnergyExpend(float value)
     {
         currentEnergy -= value;
         if (currentEnergy <= 0)
         {
             currentEnergy = 0;
-        }
-
-        if (currentEnergy <= 0)
-        {
-            StopOverdriveAction.Invoke();
+            if (playerController.isOverdrive)
+            {
+                StopOverdriveAction.Invoke();
+            }
         }
 
         playerEnergyBar.UpdateStats(currentEnergy, MaxEnergy);
     }
 
-    public bool EnergyIsEnough(int value)
+    public bool EnergyIsEnough(float value)
     {
         return currentEnergy >= value;
     }
-
 
     private void PlayerOverdriveOn()
     {

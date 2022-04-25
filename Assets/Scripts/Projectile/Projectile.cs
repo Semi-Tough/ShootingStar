@@ -26,12 +26,11 @@ public class Projectile : MonoBehaviour
     protected virtual void Awake()
     {
         startDirection = moveDirection;
- 
     }
 
     protected virtual void OnEnable()
     {
-        // moveDirection = startDirection;
+        moveDirection = startDirection;
         // ReSharper disable once Unity.InefficientPropertyAccess
         transform.rotation = Quaternion.identity;
         Target = null;

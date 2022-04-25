@@ -67,12 +67,12 @@ public class EnemyController : Controller
         }
     }
 
-    private void RotationLerp(Quaternion moveRotation, float time)
+    private void RotationLerp(Quaternion moveRotation, float duration)
     {
-        float t = 0;
-        if (!(t < time)) return;
-        t += Time.fixedDeltaTime;
-        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, t);
+        float timer = 0f;
+        if (!(timer < duration)) return;
+        timer += Time.fixedDeltaTime;
+        transform.rotation = Quaternion.Lerp(transform.rotation, moveRotation, timer);
     }
 
     private IEnumerator RandomFire()

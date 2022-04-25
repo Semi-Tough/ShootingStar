@@ -83,7 +83,7 @@ MonoBehaviour:
   maxHealth: 10
   headHealthBar: {fileID: 3900222969713635841}
   showHeadHealthBar: 0
-  energy: 5
+  energy: 100
   score: 100
   paddingX: 1
   paddingY: 0.5

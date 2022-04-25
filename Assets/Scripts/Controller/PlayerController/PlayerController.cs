@@ -27,7 +27,7 @@ public class PlayerController : Controller
 
     [SerializeField] private PlayerInput input;
 
-    private Vector2 _moveInput;
+    private Vector2 moveInput;
 
     #endregion
 
@@ -70,12 +70,15 @@ public class PlayerController : Controller
 
     #region Dodge
 
-    [SerializeField, Range(0, 100)] private int dodgeEnergy = 25;
+    [SerializeField, Range(0, 100)] private float dodgeEnergy = 25;
 
     [SerializeField] private float maxRoll = 720f;
     [SerializeField] private float rollSpeed = 360f;
     [SerializeField] private Vector3 dodgeScale = new Vector3(0.5f, 0.5f, 0.5f);
     [SerializeField] private AudioData dodgeAudioData;
+    [SerializeField] private float dodgeBulletTimeDuration;
+    [SerializeField] private float dodgeBulletTimeIn;
+    [SerializeField] private float dodgeBulletTimeOut;
 
     private CapsuleCollider2D playerCol;
     private float currentRoll;
@@ -87,13 +90,14 @@ public class PlayerController : Controller
 
     #region Overdrive
 
-    [SerializeField] private int overdriveDodgeFactor = 2;
+    [SerializeField] private float overdriveDodgeFactor = 2;
 
     [SerializeField] private float overdriveSpeedFactor = 1.2f;
     [SerializeField] private float overdriveFireFactor = 1.2f;
+    [SerializeField] private float overdriveBulletTimeDuration;
     private WaitForSeconds waitForOverdriveFire;
 
-    private bool isOverdrive;
+    public bool isOverdrive;
 
     #endregion
 
@@ -123,7 +127,7 @@ public class PlayerController : Controller
         PlayerEnergy.StartOverdriveAction += OverDriveOn;
         PlayerEnergy.StopOverdriveAction += OverDriveOff;
     }
-    
+
     private void Start()
     {
         playerRig.gravityScale = 0;
@@ -140,8 +144,8 @@ public class PlayerController : Controller
         if (isMove)
         {
             if (moveAndRotationLerpCoroutine != null) StopCoroutine(moveAndRotationLerpCoroutine);
-            moveAndRotationLerpCoroutine = StartCoroutine(MoveAndRotationLerp(moveSpeed * _moveInput,
-                Quaternion.AngleAxis(moveRotationAngle * _moveInput.y, Vector3.right), accelerationTime));
+            moveAndRotationLerpCoroutine = StartCoroutine(MoveAndRotationLerp(moveSpeed * moveInput,
+                Quaternion.AngleAxis(moveRotationAngle * moveInput.y, Vector3.right), accelerationTime));
         }
         else
         {
@@ -169,23 +173,21 @@ public class PlayerController : Controller
         PlayerEnergy.StopOverdriveAction -= OverDriveOff;
     }
 
+    #region Damage
+
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
         playerHealthBarHUD.UpdateStats(CurrentHealth, maxHealth);
 
-        if (gameObject.activeSelf)
+        if (!gameObject.activeSelf) return;
+        if (!regenerateHealth) return;
+        if (regenerateCoroutine != null)
         {
-            if (regenerateHealth)
-            {
-                if (regenerateCoroutine != null)
-                {
-                    StopCoroutine(regenerateCoroutine);
-                }
-
-                regenerateCoroutine = StartCoroutine(HealthRegenerateCoroutine(waitForRegenerate, regeneratePercent));
-            }
+            StopCoroutine(regenerateCoroutine);
         }
+
+        regenerateCoroutine = StartCoroutine(HealthRegenerateCoroutine(waitForRegenerate, regeneratePercent));
     }
 
     protected override void RestoreHealth(float value)
@@ -201,12 +203,13 @@ public class PlayerController : Controller
         base.Die();
     }
 
+    #endregion
 
     #region Move
 
-    private void StartMoveAction(Vector2 moveInput)
+    private void StartMoveAction(Vector2 dir)
     {
-        _moveInput = moveInput.normalized;
+        this.moveInput = dir.normalized;
         isMove = true;
     }
 
@@ -280,8 +283,11 @@ public class PlayerController : Controller
     private void DodgeAction()
     {
         if (isDodge) return;
+        print(dodgeEnergy);
         if (!PlayerEnergy.Instance.EnergyIsEnough(dodgeEnergy)) return;
         StartCoroutine(DodgeCoroutine());
+        TimeManager.Instance.BulletTime(dodgeBulletTimeDuration, dodgeBulletTimeIn, dodgeBulletTimeOut);
+
     }
 
     private IEnumerator DodgeCoroutine()
@@ -323,6 +329,7 @@ public class PlayerController : Controller
         isOverdrive = true;
         dodgeEnergy *= overdriveDodgeFactor;
         moveSpeed *= overdriveSpeedFactor;
+        TimeManager.Instance.BulletTime(overdriveBulletTimeDuration);
     }
 
     private void OverDriveOff()

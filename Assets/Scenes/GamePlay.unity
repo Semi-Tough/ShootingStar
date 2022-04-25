@@ -2151,6 +2151,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1737009030}
   m_CullTransparentMesh: 1
+--- !u!1 &1838808564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1838808565}
+  - component: {fileID: 1838808566}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1838808565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838808564}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.03307746, y: 0.01336463, z: -5.011654}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1838808566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838808564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12273855592f4bf6b543bbba88c02dcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletTimeScale: 0.1
 --- !u!1 &1839977931
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,11 +2971,31 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: dodgeBulletTimeIn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: bulletTimeDuration
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: dodgeBulletTimeOut
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: playerHealthBarHUD
       value: 
       objectReference: {fileID: 168139839}
     - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: overdriveDodgeFactor
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: dodgeBulletTimeDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 182882157, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
+      propertyPath: overdriveBulletTimeDuration
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1635425440, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
@@ -2956,7 +3020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6435389010079767248, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.462
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6435389010079767248, guid: 69bf9c8dfe6a9e5479d5093236b17108, type: 3}
       propertyPath: m_LocalPosition.z
