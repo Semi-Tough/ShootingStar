@@ -198,9 +198,10 @@ public class PlayerController : Controller
 
     protected override void Die()
     {
+        base.Die();
         AudioManager.Instance.PlayRandomPitch(deathAudioData);
         playerHealthBarHUD.UpdateStats(0, maxHealth);
-        base.Die();
+        GameManager.GameState = GameState.GameOve;
     }
 
     #endregion
@@ -283,7 +284,6 @@ public class PlayerController : Controller
     private void DodgeAction()
     {
         if (isDodge) return;
-        print(dodgeEnergy);
         if (!PlayerEnergy.Instance.EnergyIsEnough(dodgeEnergy)) return;
         StartCoroutine(DodgeCoroutine());
         TimeManager.Instance.BulletTime(dodgeBulletTimeDuration, dodgeBulletTimeIn, dodgeBulletTimeOut);

@@ -14,11 +14,24 @@ public class TimeManager : Singleton<TimeManager>
 {
     [SerializeField, Range(0, 2)] private float bulletTimeScale = 0.1f;
     private float defaultFixedDeltaTime;
+    private float pauseTime;
 
     protected override void Awake()
     {
         base.Awake();
         defaultFixedDeltaTime = Time.fixedDeltaTime;
+    }
+
+
+    public void Pause()
+    {
+        pauseTime = Time.timeScale;
+        Time.timeScale = 0;
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = pauseTime;
     }
 
     public void BulletTime(float duration, float inTime = 0f, float outTime = 0f)
@@ -31,16 +44,20 @@ public class TimeManager : Singleton<TimeManager>
         float timer = 0f;
         while (timer < 1f)
         {
-            if (inTime <= 0)
+            if (GameManager.GameState != GameState.Pause)
             {
-                Time.timeScale = bulletTimeScale;
+                if (inTime <= 0)
+                {
+                    Time.timeScale = bulletTimeScale;
+                    Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale;
+                    break;
+                }
+
+                timer += Time.unscaledDeltaTime / inTime;
+                Time.timeScale = Mathf.Lerp(1f, bulletTimeScale, timer);
                 Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale;
-                break;
             }
 
-            timer += Time.unscaledDeltaTime / inTime;
-            Time.timeScale = Mathf.Lerp(1f, bulletTimeScale, timer);
-            Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale;
             yield return null;
         }
 
@@ -49,16 +66,20 @@ public class TimeManager : Singleton<TimeManager>
         timer = 0f;
         while (timer < 1f)
         {
-            if (inTime <= 0)
+            if (GameManager.GameState != GameState.Pause)
             {
-                Time.timeScale = 1f;
+                if (inTime <= 0)
+                {
+                    Time.timeScale = 1f;
+                    Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale;
+                    break;
+                }
+
+                timer += Time.unscaledDeltaTime / outTime;
+                Time.timeScale = Mathf.Lerp(bulletTimeScale, 1f, timer);
                 Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale;
-                break;
             }
 
-            timer += Time.unscaledDeltaTime / outTime;
-            Time.timeScale = Mathf.Lerp(bulletTimeScale, 1f, timer);
-            Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale;
             yield return null;
         }
 

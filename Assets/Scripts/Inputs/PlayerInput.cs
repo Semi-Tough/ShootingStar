@@ -6,12 +6,14 @@
     功能：玩家输入控制
 *****************************************************/
 
+using System;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [CreateAssetMenu(menuName = "Player Input")]
-public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
+public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions, InputActions.IPauseMenuActions
 {
     public event UnityAction<Vector2> StartMoveAction = delegate { };
     public event UnityAction StopMoveAction = delegate { };
@@ -19,32 +21,65 @@ public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
     public event UnityAction StopFireAction = delegate { };
     public event UnityAction DodgeAction = delegate { };
     public event UnityAction OverdriveAction = delegate { };
+    public event UnityAction StartPauseAction = delegate { };
+    public event UnityAction StopPauseAction = delegate { };
 
-    private InputActions _inputActions;
+    private InputActions inputActions;
 
     private void OnEnable()
     {
-        _inputActions = new InputActions();
-        _inputActions.GamePlay.SetCallbacks(this);
+        inputActions = new InputActions();
+        inputActions.GamePlay.SetCallbacks(this);
+        inputActions.PauseMenu.SetCallbacks(this);
     }
 
     private void OnDisable()
     {
-        DisableInput();
+        DisableAllInputs();
     }
+
+    private void SwitchToDynamicUpdateMode()
+    {
+        InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
+    }
+
+    private void SwitchToFixedUpdateMode()
+    {
+        InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
+    }
+
+    private void SwitchActionMap([NotNull] InputActionMap actionMap, bool isUIInput)
+    {
+        if (actionMap == null) throw new ArgumentNullException(nameof(actionMap));
+        inputActions.Disable();
+        actionMap.Enable();
+
+        if (isUIInput)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
+    public void DisableAllInputs()
+    {
+        inputActions.Disable();
+    }
+
+
+    #region GamePlay
 
     public void EnableGamePlayInput()
     {
-        _inputActions.GamePlay.Enable();
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        SwitchActionMap(inputActions.GamePlay, false);
+        SwitchToFixedUpdateMode();
     }
 
-    private void DisableInput()
-    {
-        _inputActions.GamePlay.Disable();
-    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -88,5 +123,32 @@ public class PlayerInput : ScriptableObject, InputActions.IGamePlayActions
         }
     }
 
-  
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            StartPauseAction.Invoke();
+        }
+    }
+
+    #endregion
+
+
+    #region PauseMenu
+
+    public void EnablePauseMenuInput()
+    {
+        SwitchActionMap(inputActions.PauseMenu, true);
+        SwitchToDynamicUpdateMode();
+    }
+
+    public void OnUnpause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            StopPauseAction.Invoke();
+        }
+    }
+
+    #endregion
 }

@@ -14,12 +14,13 @@ using UnityEngine.UI;
 public class SceneLoader : PersistentSingleton<SceneLoader>
 {
     private const string GamePlay = "GamePlay";
+    private const string MainMenu = "MainMenu";
     [SerializeField] private Image imgTransition;
-    [SerializeField] private float fadeTime = 3.5f;
+    [SerializeField] private float fadeTime = 1.5f;
     private Color color;
 
 
-    private IEnumerator LoadCoroutine(string sceneName)
+    private IEnumerator LoadingCoroutine(string sceneName)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
@@ -32,8 +33,8 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
             yield return null;
         }
 
+        yield return new WaitUntil(() => asyncLoad.progress >= 0.9f);
         asyncLoad.allowSceneActivation = true;
-        while (!asyncLoad.isDone) yield return null;
 
         while (color.a > 0)
         {
@@ -45,8 +46,15 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
         imgTransition.gameObject.SetActive(false);
     }
 
-    public void BtnLoadGamePlayScene()
+    public void LoadGamePlayScene()
     {
-        StartCoroutine(LoadCoroutine(GamePlay));
+        StopAllCoroutines();
+        StartCoroutine(LoadingCoroutine(GamePlay));
+    }
+
+    public void LoadMainMenuScene()
+    {
+        StopAllCoroutines();
+        StartCoroutine(LoadingCoroutine(MainMenu));
     }
 }
